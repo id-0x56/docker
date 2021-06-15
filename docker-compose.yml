@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+
+    nginx:
+        build:
+            context: ./docker/nginx
+        container_name: nginx
+        restart: always
+        tty: true
+        ports:
+            - '80:80'
+            - '443:443'
+        volumes:
+            - ./core:/var/www
+        networks:
+            - app-network
+
+    php:
+        build:
+            context: ./docker/php
+        container_name: php
+        restart: always
+        tty: true
+        volumes:
+            - ./core:/var/www
+        networks:
+            - app-network
+
+    mysql:
+        build:
+            context: ./docker/mysql
+        container_name: mysql
+        restart: always
+        tty: true
+        ports:
+            - '3306:3306'
+        environment:
+            MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - mysql-data:/var/lib/mysql
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    mysql-data:
+        driver: local
