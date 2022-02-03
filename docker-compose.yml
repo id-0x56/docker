@@ -2,6 +2,19 @@ version: '3.7'
 
 services:
 
+    node:
+        build:
+            context: ./docker/node
+        container_name: node
+        restart: always
+        tty: true
+        ports:
+            - '3000:3000'
+        volumes:
+            - ./core:/var/www
+        networks:
+            - app-network
+
     nginx:
         build:
             context: ./docker/nginx

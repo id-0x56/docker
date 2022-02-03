@@ -1,5 +1,6 @@
 ## docker-compose configuration
 ### Docker images contains:
+- **NODEJS** — `3000 – 3000`
 - **NGINX** — `80 – 80, 443 – 443`
 - **PHP-FPM** — `9000`
 - **MYSQL** — `3306 – 3306`
