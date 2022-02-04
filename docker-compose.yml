@@ -7,7 +7,6 @@ services:
             context: ./docker/nginx
         container_name: nginx
         restart: always
-        tty: true
         ports:
             - '80:80'
             - '8080:8080'
@@ -15,13 +14,15 @@ services:
             - ./core:/var/www
         networks:
             - app-network
+        depends_on:
+            - node
+            - php
 
     node:
         build:
             context: ./docker/node
         container_name: node
         restart: always
-        tty: true
         volumes:
             - ./core:/var/www
         networks:
@@ -32,7 +33,6 @@ services:
             context: ./docker/php
         container_name: php
         restart: always
-        tty: true
         volumes:
             - ./core:/var/www
         networks:
@@ -43,7 +43,6 @@ services:
             context: ./docker/mysql
         container_name: mysql
         restart: always
-        tty: true
         ports:
             - '3306:3306'
         environment:
