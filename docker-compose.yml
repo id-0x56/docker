@@ -2,19 +2,6 @@ version: '3.7'
 
 services:
 
-    node:
-        build:
-            context: ./docker/node
-        container_name: node
-        restart: always
-        tty: true
-        ports:
-            - '3000:3000'
-        volumes:
-            - ./core:/var/www
-        networks:
-            - app-network
-
     nginx:
         build:
             context: ./docker/nginx
@@ -23,7 +10,18 @@ services:
         tty: true
         ports:
             - '80:80'
-            - '443:443'
+            - '8080:8080'
+        volumes:
+            - ./core:/var/www
+        networks:
+            - app-network
+
+    node:
+        build:
+            context: ./docker/node
+        container_name: node
+        restart: always
+        tty: true
         volumes:
             - ./core:/var/www
         networks:

@@ -1,9 +1,9 @@
 ## docker-compose configuration
 ### Docker images contains:
-- **NODEJS** — `3000 – 3000`
-- **NGINX** — `80 – 80, 443 – 443`
-- **PHP-FPM** — `9000`
+- **NGINX** — `80 – 80, 8080 – 8080`
 - **MYSQL** — `3306 – 3306`
+- **NODEJS** — `3000`
+- **PHP-FPM** — `9000`
 ### How to run this project
 You need to have docker and docker-compose installed on your machine.
 ```
