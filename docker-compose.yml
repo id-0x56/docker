@@ -8,6 +8,7 @@ services:
         container_name: nginx
         restart: always
         ports:
+            - '3000:3000'
             - '80:80'
             - '8080:8080'
         volumes:
@@ -17,6 +18,7 @@ services:
         depends_on:
             - node
             - php
+            - openjdk
 
     node:
         build:
@@ -32,6 +34,16 @@ services:
         build:
             context: ./docker/php
         container_name: php
+        restart: always
+        volumes:
+            - ./core:/var/www
+        networks:
+            - app-network
+
+    openjdk:
+        build:
+            context: ./docker/openjdk
+        container_name: openjdk
         restart: always
         volumes:
             - ./core:/var/www
