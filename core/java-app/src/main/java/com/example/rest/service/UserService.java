@@ -1,12 +1,12 @@
-package com.example.test.Service;
+package com.example.rest.service;
 
 import java.util.*;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.test.Entity.User;
-import com.example.test.Repository.UserRepository;
+import com.example.rest.entity.User;
+import com.example.rest.repository.UserRepository;
 
 @Service
 public class UserService {

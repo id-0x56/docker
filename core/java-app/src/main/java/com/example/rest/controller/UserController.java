@@ -1,9 +1,10 @@
-package com.example.test.Controller;
+package com.example.rest.controller;
 
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,9 +19,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
-import com.example.test.Entity.User;
-import com.example.test.Service.UserService;
+import com.example.rest.entity.User;
+import com.example.rest.service.UserService;
 
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {

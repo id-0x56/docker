@@ -1,4 +1,4 @@
-package com.example.test.Entity;
+package com.example.rest.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -30,19 +30,19 @@ public class User {
         return this.id;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return this.name;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
         return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
