@@ -10,10 +10,10 @@
 ### How to run this project
 You need to have docker and docker compose installed on your machine.
 ```
-git clone git@github.com:id-0x56/docker.git
+git clone git@github.com:id-0x56/workspace.git
 ```
 ```
-cd docker && cp .env.example .env
+cd workspace && cp .env.example .env
 ```
 ```
 docker compose up -d
