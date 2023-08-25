@@ -18,4 +18,4 @@ WORKDIR /var/www/java-app
 
 USER $USERNAME
 
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENTRYPOINT [ "tail", "-f", "/dev/null" ]

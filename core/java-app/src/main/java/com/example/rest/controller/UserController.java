@@ -22,9 +22,9 @@ import org.springframework.http.HttpStatus;
 import com.example.rest.entity.User;
 import com.example.rest.service.UserService;
 
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1/users")
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class UserController {
 
     @Autowired
