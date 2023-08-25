@@ -76,7 +76,3 @@
     </build>
 
 </project>
-
-<!-- mvn clean package && java -jar target/rest-service-0.1.0.jar -->
-<!-- date +'%Y%m%d%H%M%S' -->
-<!-- mvn dependency:tree -->
