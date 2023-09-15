@@ -12,6 +12,7 @@ RUN apk add --no-cache tzdata \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
 
+ENV JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,address=*:5005,server=y,suspend=n
 RUN apk add --no-cache curl git maven
 
 WORKDIR /var/www/java-app
@@ -19,3 +20,7 @@ WORKDIR /var/www/java-app
 USER $USERNAME
 
 ENTRYPOINT [ "tail", "-f", "/dev/null" ]
+
+# ENTRYPOINT [ "sh", "-c", "mvn package ; java -jar /var/www/java-app/target/rest-service-0.1.0.jar -Djava.net.preferIPv4Stack=true" ]
+
+# java -jar /var/www/java-app/target/rest-service-0.1.0.jar -Djava.net.preferIPv4Stack=true

@@ -29,7 +29,7 @@ RUN apt update \
         libavcodec-dev libavformat-dev libswscale-dev \
         libpng-dev libjpeg-dev libopenexr-dev libtiff-dev libwebp-dev \
         libgl1-mesa-dev libglu1-mesa-dev mesa-common-dev freeglut3-dev \
-        git curl wget mc zip unzip tar v4l-utils \
+        git mc iproute2 curl wget zip unzip tar v4l-utils \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt update \
@@ -83,7 +83,8 @@ RUN find /usr/ /var/ -name "*opencv*" | xargs rm -rf \
         .. \
     && make -j$(nproc) \
     && make install \
-    && ldconfig
+    && ldconfig \
+    && rm -rf /src/opencv_contrib /src/opencv
 
 RUN git clone https://github.com/ultralytics/ultralytics /src/ultralytics \
     && cd /src/ultralytics \
@@ -102,7 +103,8 @@ RUN apt update \
         .. \
     && make -j$(nproc) \
     && make install \
-    && ldconfig
+    && ldconfig \
+    && rm -rf /src/AMQP-CPP
 
 RUN git clone https://github.com/Microsoft/vcpkg.git /src/vcpkg \
     && /src/vcpkg/bootstrap-vcpkg.sh \
