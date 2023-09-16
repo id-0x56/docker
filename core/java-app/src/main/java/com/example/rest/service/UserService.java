@@ -5,11 +5,16 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.rest.entity.Role;
 import com.example.rest.entity.User;
+import com.example.rest.repository.RoleRepository;
 import com.example.rest.repository.UserRepository;
 
 @Service
 public class UserService {
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -22,6 +27,11 @@ public class UserService {
     }
 
     public User save(User user) {
+        if (user.getRoles() == null) {
+            Role role = this.roleRepository.findByName("ROLE_USER").get();
+            user.setRoles(List.of(role));
+        }
+
         return this.userRepository.save(user);
     }
 

@@ -1,10 +1,15 @@
 package com.example.rest.entity;
 
+import java.util.Collection;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,13 +30,13 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    // @ManyToMany
-    // @JoinTable(
-    //     name = "users_roles",
-    //     joinColumns = @JoinColumn(name = "user_id"),
-    //     inverseJoinColumns = @JoinColumn(name = "role_id")
-    // )
-    // private Collection<Role> role;
+    @ManyToMany
+    @JoinTable(
+        name = "users_roles",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Collection<Role> roles;
 
     protected User() {}
 
@@ -74,11 +79,11 @@ public class User {
         this.password = password;
     }
 
-    // public Collection<Role> getRole() {
-    //     return this.role;
-    // }
+    public Collection<Role> getRoles() {
+        return this.roles;
+    }
 
-    // public void setRole(Collection<Role> role) {
-    //     this.role = role;
-    // }
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
 }

@@ -5,9 +5,9 @@ import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.rest.entity.User;
+import com.example.rest.entity.Role;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Long> {
-    Optional<User> findByName(String name);
+public interface RoleRepository extends CrudRepository<Role, Integer> {
+    Optional<Role> findByName(String name);
 }
