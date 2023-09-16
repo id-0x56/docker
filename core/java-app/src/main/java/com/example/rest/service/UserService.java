@@ -3,6 +3,7 @@ package com.example.rest.service;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.rest.entity.Role;
@@ -19,6 +20,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public List<User> all() {
         List<User> listUser = new ArrayList<>();
         this.userRepository.findAll().forEach(listUser::add);
@@ -31,6 +35,8 @@ public class UserService {
             Role role = this.roleRepository.findByName("ROLE_USER").get();
             user.setRoles(List.of(role));
         }
+
+        user.setPassword(this.passwordEncoder.encode(user.getPassword()));
 
         return this.userRepository.save(user);
     }
