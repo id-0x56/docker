@@ -47,6 +47,12 @@ public class UserService {
         return optionalUser.isPresent() ? optionalUser.get() : null;
     }
 
+    public User find(String name) {
+        Optional<User> optionalUser = this.userRepository.findByName(name);
+
+        return optionalUser.isPresent() ? optionalUser.get() : null;
+    }
+
     public User update(Long id, User user) {
         Optional<User> optionalUser = this.userRepository.findById(id);
 
