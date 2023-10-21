@@ -1,0 +1,9 @@
+{
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-17",
+            "path": "/home/abc/Downloads/jdk-17", // path on local machine
+            "default": true,
+        },
+    ],
+}

@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "debug cpp-app",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/var/www/cpp-app/build/untitled",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "/var/www/cpp-app",
+            "environment": [],
+            "externalConsole": true,
+            "sourceFileMap": {
+                "/var/www/cpp-app/src": "${workspaceFolder}/src"
+            },
+            "pipeTransport": {
+                "debuggerPath": "/usr/bin/gdb",
+                "pipeProgram": "/usr/bin/docker",
+                "pipeArgs": [ "exec", "--privileged", "--interactive", "cpp", "sh", "-c" ],
+                "pipeCwd": "",
+            },
+            "MIMode": "gdb",
+        },
+    ],
+}

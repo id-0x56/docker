@@ -1,0 +1,14 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build java-app",
+            "type": "shell",
+            "command": "docker exec openjdk /bin/sh -c 'mvn package'",
+            "group": {
+                "kind": "build",
+                "isDefault": true,
+            },
+        },
+    ],
+}

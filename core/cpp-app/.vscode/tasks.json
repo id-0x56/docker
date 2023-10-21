@@ -1,0 +1,14 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build cpp-app",
+            "type": "shell",
+            "command": "docker exec cpp /bin/bash -c 'mkdir -p /var/www/cpp-app/build && cd /var/www/cpp-app/build && cmake -D CMAKE_BUILD_TYPE=DEBUG .. && make'",
+            "group": {
+                "kind": "build",
+                "isDefault": true,
+            },
+        },
+    ],
+}
