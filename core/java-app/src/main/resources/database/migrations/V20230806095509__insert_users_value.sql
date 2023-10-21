@@ -1,10 +1,11 @@
-INSERT IGNORE users (name, email, password) VALUES
-    ('Kathleen', 'kathleen@mail.com', '$2a$10$aBH0YBgQgrd6R9jmNTF2pONDjkyP3wrfuXTRLUs6DjUeeolpQ9/dO'),
-    ('Marie', 'marie@mail.com', '$2a$10$aBH0YBgQgrd6R9jmNTF2pONDjkyP3wrfuXTRLUs6DjUeeolpQ9/dO'),
-    ('Louise', 'louise@mail.com', '$2a$10$aBH0YBgQgrd6R9jmNTF2pONDjkyP3wrfuXTRLUs6DjUeeolpQ9/dO'),
-    ('Sharon', 'sharon@mail.com', '$2a$10$aBH0YBgQgrd6R9jmNTF2pONDjkyP3wrfuXTRLUs6DjUeeolpQ9/dO'),
-    ('Danny', 'danny@mail.com', '$2a$10$aBH0YBgQgrd6R9jmNTF2pONDjkyP3wrfuXTRLUs6DjUeeolpQ9/dO'),
-    ('Roxie', 'roxie@mail.com', '$2a$10$aBH0YBgQgrd6R9jmNTF2pONDjkyP3wrfuXTRLUs6DjUeeolpQ9/dO');
+INSERT IGNORE users (name, email, password, last_login_at, created_at) VALUES
+    ('admin', 'admin@mail.com', '$2a$10$aBH0YBgQgrd6R9jmNTF2pONDjkyP3wrfuXTRLUs6DjUeeolpQ9/dO', now(), now()),
+    ('Kathleen', 'kathleen@mail.com', '$2a$10$aBH0YBgQgrd6R9jmNTF2pONDjkyP3wrfuXTRLUs6DjUeeolpQ9/dO', now(), now()),
+    ('Marie', 'marie@mail.com', '$2a$10$aBH0YBgQgrd6R9jmNTF2pONDjkyP3wrfuXTRLUs6DjUeeolpQ9/dO', now(), now()),
+    ('Louise', 'louise@mail.com', '$2a$10$aBH0YBgQgrd6R9jmNTF2pONDjkyP3wrfuXTRLUs6DjUeeolpQ9/dO', now(), now()),
+    ('Sharon', 'sharon@mail.com', '$2a$10$aBH0YBgQgrd6R9jmNTF2pONDjkyP3wrfuXTRLUs6DjUeeolpQ9/dO', now(), now()),
+    ('Danny', 'danny@mail.com', '$2a$10$aBH0YBgQgrd6R9jmNTF2pONDjkyP3wrfuXTRLUs6DjUeeolpQ9/dO', now(), now()),
+    ('Roxie', 'roxie@mail.com', '$2a$10$aBH0YBgQgrd6R9jmNTF2pONDjkyP3wrfuXTRLUs6DjUeeolpQ9/dO', now(), now());
 
 INSERT IGNORE roles (name) VALUES
     ('ROLE_ADMIN'),
@@ -16,4 +17,5 @@ REPLACE INTO users_roles (user_id, role_id) VALUES
     (3, 2),
     (4, 2),
     (5, 2),
-    (6, 2);
+    (6, 2),
+    (7, 2);

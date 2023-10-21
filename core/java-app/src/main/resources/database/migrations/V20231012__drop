@@ -1,0 +1,23 @@
+DROP TABLE users_roles;
+
+DROP TABLE users;
+
+DROP TABLE roles;
+
+DROP TABLE flyway_schema_history;
+
+USE database;
+
+SHOW TABLES;
+
+SELECT * FROM users ORDER BY id;
+
+SELECT * FROM roles ORDER BY id;
+
+SELECT * FROM users_roles ORDER BY user_id;
+
+DESCRIBE users;
+
+DELETE FROM roles;
+
+DELETE FROM roles WHERE id=2;
