@@ -47,6 +47,8 @@ services:
             context: ./docker/openjdk
         container_name: openjdk
         restart: always
+        ports:
+            - '5005:5005'
         volumes:
             - ./core:/var/www
         networks:

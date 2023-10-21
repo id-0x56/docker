@@ -59,7 +59,7 @@ RUN find /usr/ /var/ -name "*opencv*" | xargs rm -rf \
     && cd /src/opencv/build \
     && cmake \
         -D CMAKE_BUILD_TYPE=RELEASE \
-        -D CMAKE_INSTALL_PREFIX=/usr/local \
+        -D CMAKE_INSTALL_PREFIX=/usr/local/opencv \
         -D WITH_CUDA=ON \
         -D WITH_CUDNN=ON \
         -D OPENCV_DNN_CUDA=ON \
@@ -89,6 +89,7 @@ RUN find /usr/ /var/ -name "*opencv*" | xargs rm -rf \
 RUN git clone https://github.com/ultralytics/ultralytics /src/ultralytics \
     && cd /src/ultralytics \
     && pip install -e . \
+    && rm -rf /root/.cache/pip \
     && chgrp -R $USERNAME /src/ultralytics \
     && chown -R $USERNAME /src/ultralytics
 
