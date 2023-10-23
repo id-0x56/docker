@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +37,7 @@ public class UserService {
     }
 
     public User save(User user) {
-        if (user.getRoles() == null) {
+        if (user.getRoles().isEmpty()) {
             Role role = this.roleRepository.findByName("ROLE_USER").get();
             user.setRoles(List.of(role));
         }
@@ -50,8 +53,8 @@ public class UserService {
         return optionalUser.isPresent() ? optionalUser.get() : null;
     }
 
-    public User find(String name) {
-        Optional<User> optionalUser = this.userRepository.findByName(name);
+    public User find(String email) {
+        Optional<User> optionalUser = this.userRepository.findByEmail(email);
 
         return optionalUser.isPresent() ? optionalUser.get() : null;
     }
@@ -69,10 +72,27 @@ public class UserService {
         updateUser.setEmail(user.getEmail());
         updateUser.setPassword(this.passwordEncoder.encode(user.getPassword()));
 
+        updateUser.setLastLoginIP(user.getLastLoginIP());
+        updateUser.setLastLoginAt(user.getLastLoginAt());
+
+        updateUser.setUpdatedAt(user.getUpdatedAt());
+
         return this.userRepository.save(updateUser);
     }
 
     public void delete(Long id) {
         this.userRepository.deleteById(id);
+    }
+
+    public User current() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null && authentication instanceof AnonymousAuthenticationToken && !authentication.isAuthenticated()) {
+            return null;
+        }
+
+        Optional<User> optionalUser = this.userRepository.findByEmail(authentication.getName());
+
+        return optionalUser.isPresent() ? optionalUser.get() : null;
     }
 }

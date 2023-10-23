@@ -1,5 +1,6 @@
 package com.example.rest.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,8 @@ import com.example.rest.dto.UserDto;
 import com.example.rest.entity.User;
 import com.example.rest.mapper.UserMapper;
 import com.example.rest.service.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -43,8 +46,15 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> store(@RequestBody UserDto userDto) {
-        final User user = this.userService.save(UserMapper.toEntity(userDto));
+    public ResponseEntity<?> store(@RequestBody UserDto userDto, HttpServletRequest request) {
+        User user = UserMapper.toEntity(userDto);
+
+        user.setLastLoginIP(request.getRemoteAddr());
+        user.setLastLoginAt(LocalDateTime.now());
+
+        user.setCreatedAt(LocalDateTime.now());
+
+        this.userService.save(user);
 
         final UserDto storeUserDto = UserMapper.toDto(user);
 
@@ -65,14 +75,21 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UserDto userDto) {
-        final User user = this.userService.update(id, UserMapper.toEntity(userDto));
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UserDto userDto, HttpServletRequest request) {
+        User user = UserMapper.toEntity(userDto);
 
-        if (user == null) {
+        user.setLastLoginIP(request.getRemoteAddr());
+        user.setLastLoginAt(LocalDateTime.now());
+
+        user.setUpdatedAt(LocalDateTime.now());
+
+        final User updateUser = this.userService.update(id, user);
+
+        if (updateUser == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        
-        final UserDto updateUserDto = UserMapper.toDto(user);
+
+        final UserDto updateUserDto = UserMapper.toDto(updateUser);
 
         return new ResponseEntity<>(updateUserDto, HttpStatus.ACCEPTED);
     }

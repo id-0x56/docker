@@ -1,6 +1,9 @@
 package com.example.rest.dto;
 
+import java.time.LocalDateTime;
+
 public class UserDto {
+
     private Long id;
 
     private String name;
@@ -9,12 +12,15 @@ public class UserDto {
 
     private String password;
 
-    public UserDto(Long id, String name, String email, String password) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
+    private String lastLoginIP;
+
+    private LocalDateTime lastLoginAt;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
+    public UserDto() {}
 
     public Long getId() {
         return this.id;
@@ -46,5 +52,37 @@ public class UserDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getLastLoginIP() {
+        return this.lastLoginIP;
+    }
+
+    public void setLastLoginIP(String lastLoginIP) {
+        this.lastLoginIP = lastLoginIP;
+    }
+
+    public LocalDateTime getLastLoginAt() {
+        return this.lastLoginAt;
+    }
+
+    public void setLastLoginAt(LocalDateTime lastLoginAt) {
+        this.lastLoginAt = lastLoginAt;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return this.updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

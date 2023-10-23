@@ -18,6 +18,6 @@ SELECT * FROM users_roles ORDER BY user_id;
 
 DESCRIBE users;
 
-DELETE FROM roles;
+DELETE FROM users;
 
-DELETE FROM roles WHERE id=2;
+DELETE FROM users WHERE id=2;
