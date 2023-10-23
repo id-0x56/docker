@@ -6,9 +6,9 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-// import org.springframework.security.authentication.AuthenticationManager;
-// import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-// import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +25,8 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/api/v1/token")
 public class TokenController {
 
-    // @Autowired
-    // private AuthenticationManager authenticationManager;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Autowired
     private UserService userService;
@@ -35,7 +35,7 @@ public class TokenController {
     private JwtService jwtService;
 
     @PostMapping("/registration")
-    public ResponseEntity<?> token(@RequestBody TokenDto tokenDto, HttpServletRequest request) {
+    public ResponseEntity<?> registration(@RequestBody TokenDto tokenDto, HttpServletRequest request) {
         // Enumeration headerNames = request.getHeaderNames();
         // while (headerNames.hasMoreElements()) {
         //     String key = (String) headerNames.nextElement();
@@ -59,6 +59,23 @@ public class TokenController {
         user.setUpdatedAt(null);              // updated at
 
         this.userService.save(user);
+
+        String jwtString = this.jwtService.create(tokenDto.getEmail(), tokenDto.getPassword());
+
+        return new ResponseEntity<>(jwtString, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refresh(@RequestBody TokenDto tokenDto, HttpServletRequest request) {
+        try {
+            authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                    tokenDto.getEmail(), tokenDto.getPassword()
+                )
+            );
+        } catch (BadCredentialsException exception) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
 
         String jwtString = this.jwtService.create(tokenDto.getEmail(), tokenDto.getPassword());
 

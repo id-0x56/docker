@@ -1,7 +1,6 @@
 package com.example.rest.filter;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -42,7 +41,11 @@ public class JwtFilter extends OncePerRequestFilter {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
 
                 if (this.jwtService.validate(userDetails, jwt)) {
-                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(email, null, new ArrayList<>());
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                        email,
+                        null,
+                        userDetails.getAuthorities()
+                    );
 
                     SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
                     securityContext.setAuthentication(usernamePasswordAuthenticationToken);
