@@ -51,13 +51,13 @@ public class TokenController {
         user.setCreatedAt(LocalDateTime.now());         // created at
         user.setUpdatedAt(null);              // updated at
 
-        this.userService.save(user);
+        final User storeUser = this.userService.save(user);
 
         TokenResponse tokenResponse = new TokenResponse();
 
-        tokenResponse.setName(userRequest.getName());
-        tokenResponse.setEmail(userRequest.getEmail());
-        tokenResponse.setToken(this.jwtService.create(userRequest.getEmail(), userRequest.getPassword()));
+        tokenResponse.setName(storeUser.getName());
+        tokenResponse.setEmail(storeUser.getEmail());
+        tokenResponse.setToken(this.jwtService.create(storeUser.getEmail(), storeUser.getPassword()));
 
         return new ResponseEntity<>(tokenResponse, HttpStatus.CREATED);
     }
