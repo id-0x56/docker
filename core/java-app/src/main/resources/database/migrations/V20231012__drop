@@ -1,23 +1,25 @@
-DROP TABLE users_roles;
-
-DROP TABLE users;
-
-DROP TABLE roles;
-
-DROP TABLE flyway_schema_history;
-
 USE database;
 
 SHOW TABLES;
 
-SELECT * FROM users ORDER BY id;
+DESCRIBE database.flyway_schema_history;
+DESCRIBE database.users;
+DESCRIBE database.roles;
+DESCRIBE database.users_roles;
 
-SELECT * FROM roles ORDER BY id;
+DROP TABLE database.users_roles;
+DROP TABLE database.roles;
+DROP TABLE database.users;
+DROP TABLE database.flyway_schema_history;
 
-SELECT * FROM users_roles ORDER BY user_id;
+SELECT * FROM database.flyway_schema_history ORDER BY installed_rank;
+SELECT * FROM database.users ORDER BY id;
+SELECT * FROM database.roles ORDER BY id;
+SELECT * FROM database.users_roles ORDER BY user_id;
 
-DESCRIBE users;
+DELETE FROM database.flyway_schema_history;
+DELETE FROM database.users;
+DELETE FROM database.roles;
+DELETE FROM database.users_roles;
 
-DELETE FROM users;
-
-DELETE FROM users WHERE id=2;
+DELETE FROM database.users WHERE id=5;
