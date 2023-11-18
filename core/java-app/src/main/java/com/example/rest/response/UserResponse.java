@@ -1,16 +1,17 @@
-package com.example.rest.dto;
+package com.example.rest.response;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-public class UserDto {
+import com.example.rest.entity.Role;
 
+public class UserResponse {
     private Long id;
 
     private String name;
 
     private String email;
-
-    private String password;
 
     private String lastLoginIP;
 
@@ -20,7 +21,7 @@ public class UserDto {
 
     private LocalDateTime updatedAt;
 
-    public UserDto() {}
+    private List<Role> roles = new ArrayList<>();
 
     public Long getId() {
         return this.id;
@@ -44,14 +45,6 @@ public class UserDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getLastLoginIP() {
@@ -84,5 +77,13 @@ public class UserDto {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public List<Role> getRoles() {
+        return this.roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

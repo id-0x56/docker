@@ -1,7 +1,6 @@
-package com.example.rest.dto;
+package com.example.rest.request;
 
-public class TokenDto {
-
+public class UserRequest {
     private String name;
 
     private String email;

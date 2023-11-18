@@ -54,6 +54,18 @@ public class User {
 
     protected User() {}
 
+    public User(Long id, String name, String email, String password, String lastLoginIP, LocalDateTime lastLoginAt, LocalDateTime createdAt, LocalDateTime updatedAt, List<Role> roles) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.lastLoginIP = lastLoginIP;
+        this.lastLoginAt = lastLoginAt;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.roles = roles;
+    }
+
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;

@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.rest.dto.UserDto;
 import com.example.rest.entity.User;
-import com.example.rest.mapper.UserMapper;
+import com.example.rest.request.UserRequest;
+import com.example.rest.response.UserResponse;
 import com.example.rest.service.UserService;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -30,6 +32,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    UserController() {
+        this.objectMapper = new ObjectMapper()
+            .configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
+
     @GetMapping
     public ResponseEntity<?> index() {
         final List<User> listUser = this.userService.all();
@@ -38,27 +49,30 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        final List<UserDto> listUserDto = listUser.stream()
-            .map(UserMapper::toDto)
+        final List<UserResponse> listUserResponse = listUser.stream()
+            .map(user -> this.objectMapper.convertValue(user, UserResponse.class))
             .collect(Collectors.toList());
 
-        return new ResponseEntity<>(listUserDto, HttpStatus.OK);
+        return new ResponseEntity<>(listUserResponse, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> store(@RequestBody UserDto userDto, HttpServletRequest request) {
-        User user = UserMapper.toEntity(userDto);
+    public ResponseEntity<?> store(@RequestBody UserRequest userRequest, HttpServletRequest request) {
+        User user = new User(
+            userRequest.getName(),
+            userRequest.getEmail(),
+            userRequest.getPassword()
+        );
 
         user.setLastLoginIP(request.getRemoteAddr());
         user.setLastLoginAt(LocalDateTime.now());
-
         user.setCreatedAt(LocalDateTime.now());
 
-        this.userService.save(user);
+        final User storeUser = this.userService.save(user);
 
-        final UserDto storeUserDto = UserMapper.toDto(user);
+        final UserResponse userResponse = this.objectMapper.convertValue(storeUser, UserResponse.class);
 
-        return new ResponseEntity<>(storeUserDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -69,18 +83,21 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        final UserDto userDto = UserMapper.toDto(user);
+        final UserResponse userResponse = this.objectMapper.convertValue(user, UserResponse.class);
 
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
+        return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UserDto userDto, HttpServletRequest request) {
-        User user = UserMapper.toEntity(userDto);
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UserRequest userRequest, HttpServletRequest request) {
+        User user = new User(
+            userRequest.getName(),
+            userRequest.getEmail(),
+            userRequest.getPassword()
+        );
 
         user.setLastLoginIP(request.getRemoteAddr());
         user.setLastLoginAt(LocalDateTime.now());
-
         user.setUpdatedAt(LocalDateTime.now());
 
         final User updateUser = this.userService.update(id, user);
@@ -89,9 +106,9 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        final UserDto updateUserDto = UserMapper.toDto(updateUser);
+        final UserResponse userResponse = this.objectMapper.convertValue(updateUser, UserResponse.class);
 
-        return new ResponseEntity<>(updateUserDto, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(userResponse, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")
