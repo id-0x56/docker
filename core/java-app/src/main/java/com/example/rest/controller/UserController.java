@@ -117,4 +117,11 @@ public class UserController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/whoami")
+    public ResponseEntity<?> whoami() {
+        final UserResponse userResponse = this.objectMapper.convertValue(this.userService.current(), UserResponse.class);
+
+        return new ResponseEntity<>(userResponse, HttpStatus.OK);
+    }
 }

@@ -1,0 +1,6 @@
+{
+  "configUrl": "/api/config.json",
+  "oauth2RedirectUrl": "http://localhost/api/swagger-ui/oauth2-redirect.html",
+  "url": "/api/docs.yaml",
+  "validatorUrl": ""
+}

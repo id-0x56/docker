@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,9 @@ public class TokenController {
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostMapping("/registration")
     public ResponseEntity<?> token(UserRequest userRequest, HttpServletRequest request) {
         if (this.userService.find(userRequest.getEmail()) != null) {
@@ -57,7 +61,10 @@ public class TokenController {
 
         tokenResponse.setName(storeUser.getName());
         tokenResponse.setEmail(storeUser.getEmail());
-        tokenResponse.setToken(this.jwtService.create(storeUser.getEmail(), storeUser.getPassword()));
+        tokenResponse.setToken(this.jwtService.create(
+            storeUser.getEmail(),
+            storeUser.getPassword()
+        ));
 
         return new ResponseEntity<>(tokenResponse, HttpStatus.CREATED);
     }
@@ -78,7 +85,10 @@ public class TokenController {
 
         tokenResponse.setName(userRequest.getName());
         tokenResponse.setEmail(userRequest.getEmail());
-        tokenResponse.setToken(this.jwtService.create(userRequest.getEmail(), userRequest.getPassword()));
+        tokenResponse.setToken(this.jwtService.create(
+            userRequest.getEmail(),
+            this.passwordEncoder.encode(userRequest.getPassword())
+        ));
 
         return new ResponseEntity<>(tokenResponse, HttpStatus.CREATED);
     }

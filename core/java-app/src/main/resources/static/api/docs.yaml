@@ -1,0 +1,136 @@
+openapi: 3.0.0
+
+info:
+  title: Object detection API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api/{basePath}
+    description: Development API server
+    variables:
+      basePath:
+        default: v1
+
+paths:
+  /token/registration:
+    post:
+      tags:
+        - Authentication
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /token/refresh:
+    post:
+      tags:
+        - Authentication
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+components:
+  schemas:
+    UserRequest:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          description: name
+          example: Alex
+        email:
+          type: string
+          description: email
+          example: alex@example.com
+        password:
+          type: string
+          description: password
+          example: Pa$$w0rd!
+    TokenResponse:
+      type: object
+      properties:
+        name:
+          type: string
+          description: name
+          example: Alex
+        email:
+          type: string
+          description: email
+          example: alex@example.com
+        token:
+          type: string
+          description: bearer token
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyIwIjoiMzZiYzZhMDMtMDY4NS00MGVjLWI1ODMtZGY4OWY1NDU2NDU1In0.BEyBhM1lFEzUhvm4VJNS3QHdymgsu35I94eApqH1XrM
+
+  parameters:
+    # ---
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                # example: 'Access token is missing or invalid'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                # example: 'Access token is missing or invalid'
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                # example: 'Access token is missing or invalid'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                # example: 'Access token is missing or invalid'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
