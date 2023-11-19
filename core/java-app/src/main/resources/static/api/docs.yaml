@@ -48,6 +48,67 @@ paths:
                 $ref: '#/components/schemas/TokenResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
+  /users:
+    get:
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+
+
+
+    post:
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+  /users/{id}:
+    get:
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+  /users/whoami:
+    get:
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
 components:
   schemas:
@@ -60,15 +121,15 @@ components:
       properties:
         name:
           type: string
-          description: name
+          description: user name
           example: Alex
         email:
           type: string
-          description: email
+          description: user email
           example: alex@example.com
         password:
           type: string
-          description: password
+          description: user password
           example: Pa$$w0rd!
     TokenResponse:
       type: object
@@ -85,6 +146,61 @@ components:
           type: string
           description: bearer token
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyIwIjoiMzZiYzZhMDMtMDY4NS00MGVjLWI1ODMtZGY4OWY1NDU2NDU1In0.BEyBhM1lFEzUhvm4VJNS3QHdymgsu35I94eApqH1XrM
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: role id
+          example: 2
+        name:
+          type: string
+          description: role name
+          example: ROLE_USER
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: user id
+          example: 1
+        name:
+          type: string
+          description: user name
+          example: Alex
+        email:
+          type: string
+          description: user email
+          example: alex@example.com
+        lastLoginIP:
+          type: string
+          description: user last login ip
+          example: 127.0.0.1
+        lastLoginAt:
+          type: string
+          format: date-time
+          description: user last login at
+          example: 2023-11-19T04:21:43
+        createdAt:
+          type: string
+          format: date-time
+          description: user last login at
+          example: 2021-09-17T02:19:41
+        updatedAt:
+          type: string
+          format: date-time
+          description: user last login at
+          example: 2022-10-18T03:20:42
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+    Users:
+      type: array
+      items:
+        $ref: '#/components/schemas/User'
 
   parameters:
     # ---
