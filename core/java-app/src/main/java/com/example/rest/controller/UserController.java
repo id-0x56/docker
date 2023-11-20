@@ -1,5 +1,7 @@
 package com.example.rest.controller;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.rest.entity.Activity;
+import com.example.rest.entity.Profile;
+import com.example.rest.entity.Role;
 import com.example.rest.entity.User;
 import com.example.rest.request.UserRequest;
 import com.example.rest.response.UserResponse;
@@ -55,19 +60,28 @@ public class UserController {
         return new ResponseEntity<>(listUserResponse, HttpStatus.OK);
     }
 
-    // @PostMapping
-    // public ResponseEntity<?> store(@RequestBody UserRequest userRequest, HttpServletRequest request) {
-    //     User user = new User(
-    //         userRequest.getEmail(),
-    //         userRequest.getPassword()
-    //     );
+    @PostMapping
+    public ResponseEntity<?> store(@RequestBody UserRequest userRequest, HttpServletRequest request) {
+        User user = new User(
+            userRequest.getEmail(),
+            userRequest.getPassword()
+        );
 
-    //     final User storeUser = this.userService.save(user);
+        List<Role> roles = Collections.emptyList();
+        user.setRoles(roles);
 
-    //     final UserResponse userResponse = this.objectMapper.convertValue(storeUser, UserResponse.class);
+        Profile profile = new Profile(userRequest.getProfile().getFirstName(), userRequest.getProfile().getLastName(), false, user);
+        user.setProfile(profile);
 
-    //     return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
-    // }
+        Activity activity = new Activity(request.getRemoteAddr(), LocalDateTime.now(), LocalDateTime.now(), null, user);
+        user.setActivity(activity);
+
+        final User storeUser = this.userService.save(user);
+
+        final UserResponse userResponse = this.objectMapper.convertValue(storeUser, UserResponse.class);
+
+        return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> show(@PathVariable Long id) {
