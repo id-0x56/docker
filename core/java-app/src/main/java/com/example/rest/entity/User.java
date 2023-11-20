@@ -31,6 +31,13 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @OneToOne(
+        mappedBy = "user",
+        cascade = CascadeType.ALL
+    )
+    @PrimaryKeyJoinColumn
+    private Profile profile;
+
     @ManyToMany
     @JoinTable(
         name = "users_roles",
@@ -44,22 +51,15 @@ public class User {
         cascade = CascadeType.ALL
     )
     @PrimaryKeyJoinColumn
-    private Profile profile;
-
-    @OneToOne(
-        mappedBy = "user",
-        cascade = CascadeType.ALL
-    )
-    @PrimaryKeyJoinColumn
     private Activity activity;
 
     protected User() {}
 
-    public User(String email, String password, List<Role> roles, Profile profile, Activity activity) {
+    public User(String email, String password, Profile profile, List<Role> roles, Activity activity) {
         this.email = email;
         this.password = password;
-        this.roles = roles;
         this.profile = profile;
+        this.roles = roles;
         this.activity = activity;
     }
 
@@ -92,20 +92,20 @@ public class User {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
-        return this.roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
     public Profile getProfile() {
         return this.profile;
     }
 
     public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+    public List<Role> getRoles() {
+        return this.roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     public Activity getActivity() {

@@ -12,9 +12,9 @@ public class UserResponse {
 
     private String email;
 
-    private List<Role> roles = new ArrayList<>();
-
     private Profile profile;
+
+    private List<Role> roles = new ArrayList<>();
 
     private Activity activity;
 
@@ -34,20 +34,20 @@ public class UserResponse {
         this.email = email;
     }
 
-    public List<Role> getRoles() {
-        return this.roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
     public Profile getProfile() {
         return this.profile;
     }
 
     public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+    public List<Role> getRoles() {
+        return this.roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     public Activity getActivity() {
