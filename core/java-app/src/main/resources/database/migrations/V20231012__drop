@@ -6,7 +6,11 @@ DESCRIBE database.flyway_schema_history;
 DESCRIBE database.users;
 DESCRIBE database.roles;
 DESCRIBE database.users_roles;
+DESCRIBE database.profiles;
+DESCRIBE database.activities;
 
+DROP TABLE database.activities;
+DROP TABLE database.profiles;
 DROP TABLE database.users_roles;
 DROP TABLE database.roles;
 DROP TABLE database.users;
@@ -16,10 +20,14 @@ SELECT * FROM database.flyway_schema_history ORDER BY installed_rank;
 SELECT * FROM database.users ORDER BY id;
 SELECT * FROM database.roles ORDER BY id;
 SELECT * FROM database.users_roles ORDER BY user_id;
+SELECT * FROM database.profiles ORDER BY user_id;
+SELECT * FROM database.activities ORDER BY user_id;
 
 DELETE FROM database.flyway_schema_history;
 DELETE FROM database.users;
 DELETE FROM database.roles;
 DELETE FROM database.users_roles;
+DELETE FROM database.profiles;
+DELETE FROM database.activities;
 
 DELETE FROM database.users WHERE id=5;

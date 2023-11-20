@@ -117,7 +117,7 @@ services:
         ports:
             - '15432:80'
         environment:
-            PGADMIN_DEFAULT_EMAIL: '${DB_USERNAME}@mail.com'
+            PGADMIN_DEFAULT_EMAIL: '${DB_USERNAME}@example.com'
             PGADMIN_DEFAULT_PASSWORD: ${DB_PASSWORD}
         volumes:
             - pgadmin-data:/var/lib/pgadmin

@@ -10,6 +10,7 @@
         <java.version>19</java.version>
         <spring.version>3.1.5</spring.version>
         <mysql.version>8.0.33</mysql.version>
+        <!-- <postgresql.version>42.6.0</postgresql.version> -->
         <!-- <h2.version>2.2.224</h2.version> -->
         <flyway.version>9.22.3</flyway.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -57,6 +58,13 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <!-- <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency> -->
 
         <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
         <!-- <dependency>
