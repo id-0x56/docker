@@ -19,7 +19,7 @@ import com.example.rest.entity.Activity;
 import com.example.rest.entity.Profile;
 import com.example.rest.entity.Role;
 import com.example.rest.entity.User;
-import com.example.rest.request.UserRequest;
+import com.example.rest.request.TokenRequest;
 import com.example.rest.response.TokenResponse;
 import com.example.rest.service.JwtService;
 import com.example.rest.service.UserService;
@@ -43,14 +43,14 @@ public class TokenController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/registration")
-    public ResponseEntity<?> token(UserRequest userRequest, HttpServletRequest request) {
-        if (this.userService.find(userRequest.getEmail()) != null) {
+    public ResponseEntity<?> token(TokenRequest tokenRequest, HttpServletRequest request) {
+        if (this.userService.find(tokenRequest.getEmail()) != null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         User user = new User(
-            userRequest.getEmail(),         // email
-            userRequest.getPassword()       // password
+            tokenRequest.getEmail(),         // email
+            tokenRequest.getPassword()       // password
         );
 
         List<Role> roles = Collections.emptyList();
@@ -75,11 +75,11 @@ public class TokenController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<?> refresh(UserRequest userRequest, HttpServletRequest request) {
+    public ResponseEntity<?> refresh(TokenRequest tokenRequest, HttpServletRequest request) {
         try {
             authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                    userRequest.getEmail(), userRequest.getPassword()
+                    tokenRequest.getEmail(), tokenRequest.getPassword()
                 )
             );
         } catch (BadCredentialsException exception) {
@@ -88,9 +88,9 @@ public class TokenController {
 
         TokenResponse tokenResponse = new TokenResponse();
 
-        tokenResponse.setEmail(userRequest.getEmail());
+        tokenResponse.setEmail(tokenRequest.getEmail());
         tokenResponse.setToken(
-            this.jwtService.create(userRequest.getEmail(), this.passwordEncoder.encode(userRequest.getPassword()))
+            this.jwtService.create(tokenRequest.getEmail(), this.passwordEncoder.encode(tokenRequest.getPassword()))
         );
 
         return new ResponseEntity<>(tokenResponse, HttpStatus.CREATED);
