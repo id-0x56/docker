@@ -1,7 +1,5 @@
 package com.example.rest.controller;
 
-import java.time.LocalDateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,27 +42,18 @@ public class TokenController {
         }
 
         User user = new User(
-            userRequest.getName(),                      // name
             userRequest.getEmail(),                     // email
             userRequest.getPassword()                   // password
         );
-
-        user.setLastLoginIP(request.getRemoteAddr());   // last login ip
-        user.setLastLoginAt(LocalDateTime.now());       // last login at
-
-        user.setCreatedAt(LocalDateTime.now());         // created at
-        user.setUpdatedAt(null);              // updated at
 
         final User storeUser = this.userService.save(user);
 
         TokenResponse tokenResponse = new TokenResponse();
 
-        tokenResponse.setName(storeUser.getName());
         tokenResponse.setEmail(storeUser.getEmail());
-        tokenResponse.setToken(this.jwtService.create(
-            storeUser.getEmail(),
-            storeUser.getPassword()
-        ));
+        tokenResponse.setToken(
+            this.jwtService.create(storeUser.getEmail(), storeUser.getPassword())
+        );
 
         return new ResponseEntity<>(tokenResponse, HttpStatus.CREATED);
     }
@@ -83,12 +72,10 @@ public class TokenController {
 
         TokenResponse tokenResponse = new TokenResponse();
 
-        tokenResponse.setName(userRequest.getName());
         tokenResponse.setEmail(userRequest.getEmail());
-        tokenResponse.setToken(this.jwtService.create(
-            userRequest.getEmail(),
-            this.passwordEncoder.encode(userRequest.getPassword())
-        ));
+        tokenResponse.setToken(
+            this.jwtService.create(userRequest.getEmail(), this.passwordEncoder.encode(userRequest.getPassword()))
+        );
 
         return new ResponseEntity<>(tokenResponse, HttpStatus.CREATED);
     }

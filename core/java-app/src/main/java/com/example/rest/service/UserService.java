@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.rest.entity.Role;
 import com.example.rest.entity.User;
+import com.example.rest.repository.ActivityRepository;
+import com.example.rest.repository.ProfileRepository;
 import com.example.rest.repository.RoleRepository;
 import com.example.rest.repository.UserRepository;
 
@@ -21,10 +23,16 @@ import com.example.rest.repository.UserRepository;
 public class UserService {
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private RoleRepository roleRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private ProfileRepository profileRepository;
+
+    @Autowired
+    private ActivityRepository activityRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -68,14 +76,8 @@ public class UserService {
 
         User updateUser = optionalUser.get();
 
-        updateUser.setName(user.getName());
         updateUser.setEmail(user.getEmail());
         updateUser.setPassword(this.passwordEncoder.encode(user.getPassword()));
-
-        updateUser.setLastLoginIP(user.getLastLoginIP());
-        updateUser.setLastLoginAt(user.getLastLoginAt());
-
-        updateUser.setUpdatedAt(user.getUpdatedAt());
 
         return this.userRepository.save(updateUser);
     }

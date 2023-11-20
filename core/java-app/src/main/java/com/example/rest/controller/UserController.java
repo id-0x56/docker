@@ -1,6 +1,5 @@
 package com.example.rest.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,24 +55,19 @@ public class UserController {
         return new ResponseEntity<>(listUserResponse, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<?> store(@RequestBody UserRequest userRequest, HttpServletRequest request) {
-        User user = new User(
-            userRequest.getName(),
-            userRequest.getEmail(),
-            userRequest.getPassword()
-        );
+    // @PostMapping
+    // public ResponseEntity<?> store(@RequestBody UserRequest userRequest, HttpServletRequest request) {
+    //     User user = new User(
+    //         userRequest.getEmail(),
+    //         userRequest.getPassword()
+    //     );
 
-        user.setLastLoginIP(request.getRemoteAddr());
-        user.setLastLoginAt(LocalDateTime.now());
-        user.setCreatedAt(LocalDateTime.now());
+    //     final User storeUser = this.userService.save(user);
 
-        final User storeUser = this.userService.save(user);
+    //     final UserResponse userResponse = this.objectMapper.convertValue(storeUser, UserResponse.class);
 
-        final UserResponse userResponse = this.objectMapper.convertValue(storeUser, UserResponse.class);
-
-        return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
-    }
+    //     return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
+    // }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> show(@PathVariable Long id) {
@@ -88,28 +82,23 @@ public class UserController {
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UserRequest userRequest, HttpServletRequest request) {
-        User user = new User(
-            userRequest.getName(),
-            userRequest.getEmail(),
-            userRequest.getPassword()
-        );
+    // @PutMapping("/{id}")
+    // public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UserRequest userRequest, HttpServletRequest request) {
+    //     User user = new User(
+    //         userRequest.getEmail(),
+    //         userRequest.getPassword()
+    //     );
 
-        user.setLastLoginIP(request.getRemoteAddr());
-        user.setLastLoginAt(LocalDateTime.now());
-        user.setUpdatedAt(LocalDateTime.now());
+    //     final User updateUser = this.userService.update(id, user);
 
-        final User updateUser = this.userService.update(id, user);
+    //     if (updateUser == null) {
+    //         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    //     }
 
-        if (updateUser == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    //     final UserResponse userResponse = this.objectMapper.convertValue(updateUser, UserResponse.class);
 
-        final UserResponse userResponse = this.objectMapper.convertValue(updateUser, UserResponse.class);
-
-        return new ResponseEntity<>(userResponse, HttpStatus.ACCEPTED);
-    }
+    //     return new ResponseEntity<>(userResponse, HttpStatus.ACCEPTED);
+    // }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> destroy(@PathVariable Long id) {

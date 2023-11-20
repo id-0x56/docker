@@ -1,9 +1,9 @@
 package com.example.rest.entity;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,26 +25,11 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
-
     @Column(name = "email")
     private String email;
 
     @Column(name = "password")
     private String password;
-
-    @Column(name = "last_login_ip")
-    private String lastLoginIP;
-
-    @Column(name = "last_login_at")
-    private LocalDateTime lastLoginAt;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 
     @ManyToMany
     @JoinTable(
@@ -52,22 +39,32 @@ public class User {
     )
     private List<Role> roles = new ArrayList<>();
 
+    @OneToOne(
+        mappedBy = "user",
+        cascade = CascadeType.ALL
+    )
+    @PrimaryKeyJoinColumn
+    private Profile profile;
+
+    @OneToOne(
+        mappedBy = "user",
+        cascade = CascadeType.ALL
+    )
+    @PrimaryKeyJoinColumn
+    private Activity activity;
+
     protected User() {}
 
-    public User(Long id, String name, String email, String password, String lastLoginIP, LocalDateTime lastLoginAt, LocalDateTime createdAt, LocalDateTime updatedAt, List<Role> roles) {
+    public User(Long id, String email, String password, List<Role> roles, Profile profile, Activity activity) {
         this.id = id;
-        this.name = name;
         this.email = email;
         this.password = password;
-        this.lastLoginIP = lastLoginIP;
-        this.lastLoginAt = lastLoginAt;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
         this.roles = roles;
+        this.profile = profile;
+        this.activity = activity;
     }
 
-    public User(String name, String email, String password) {
-        this.name = name;
+    public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
@@ -78,14 +75,6 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getEmail() {
@@ -104,43 +93,27 @@ public class User {
         this.password = password;
     }
 
-    public String getLastLoginIP() {
-        return this.lastLoginIP;
-    }
-
-    public void setLastLoginIP(String lastLoginIP) {
-        this.lastLoginIP = lastLoginIP;
-    }
-
-    public LocalDateTime getLastLoginAt() {
-        return this.lastLoginAt;
-    }
-
-    public void setLastLoginAt(LocalDateTime lastLoginAt) {
-        this.lastLoginAt = lastLoginAt;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return this.updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     public List<Role> getRoles() {
         return this.roles;
     }
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public Profile getProfile() {
+        return this.profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+    public Activity getActivity() {
+        return this.activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 }

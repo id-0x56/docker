@@ -1,19 +1,9 @@
 package com.example.rest.request;
 
 public class UserRequest {
-    private String name;
-
     private String email;
 
     private String password;
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getEmail() {
         return this.email;
