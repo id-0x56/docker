@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.rest.entity.Role;
 import com.example.rest.entity.User;
-import com.example.rest.repository.ActivityRepository;
-import com.example.rest.repository.ProfileRepository;
 import com.example.rest.repository.RoleRepository;
 import com.example.rest.repository.UserRepository;
 
@@ -27,12 +25,6 @@ public class UserService {
 
     @Autowired
     private RoleRepository roleRepository;
-
-    @Autowired
-    private ProfileRepository profileRepository;
-
-    @Autowired
-    private ActivityRepository activityRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

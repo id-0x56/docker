@@ -13,19 +13,19 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "profiles")
 public class Profile {
-    
+
     @Id
     @Column(name = "user_id")
     private Long id;
-
-    @Column(name = "verified")
-    private boolean verified;
 
     @Column(name = "first_name")
     private String firstName;
 
     @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "verified")
+    private boolean verified;
 
     @JsonIgnore
     @OneToOne
@@ -35,9 +35,11 @@ public class Profile {
 
     protected Profile() {}
 
-    public Profile(String firstName, String lastName) {
+    public Profile(String firstName, String lastName, boolean verified, User user) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.verified = verified;
+        this.user = user;
     }
 
     public Long getId() {
@@ -46,14 +48,6 @@ public class Profile {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public boolean getVerified() {
-        return this.verified;
-    }
-
-    public void setVerified(boolean verified) {
-        this.verified = verified;
     }
 
     public String getFirstName() {
@@ -70,6 +64,14 @@ public class Profile {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public boolean getVerified() {
+        return this.verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
     }
 
     public User getUser() {

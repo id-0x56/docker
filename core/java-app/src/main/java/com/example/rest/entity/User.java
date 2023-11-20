@@ -55,8 +55,7 @@ public class User {
 
     protected User() {}
 
-    public User(Long id, String email, String password, List<Role> roles, Profile profile, Activity activity) {
-        this.id = id;
+    public User(String email, String password, List<Role> roles, Profile profile, Activity activity) {
         this.email = email;
         this.password = password;
         this.roles = roles;

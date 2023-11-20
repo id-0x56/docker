@@ -40,6 +40,14 @@ public class Activity {
 
     protected Activity() {}
 
+    public Activity(String lastLoginIP, LocalDateTime lastLoginAt, LocalDateTime createdAt, LocalDateTime updatedAt, User user) {
+        this.lastLoginIP = lastLoginIP;
+        this.lastLoginAt = lastLoginAt;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.user = user;
+    }
+
     public Long getId() {
         return this.id;
     }
