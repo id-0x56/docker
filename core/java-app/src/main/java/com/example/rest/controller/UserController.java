@@ -67,7 +67,7 @@ public class UserController {
             userRequest.getPassword()
         );
 
-        List<Role> roles = Collections.emptyList();
+        List<Role> roles = userRequest.getRoles();
         user.setRoles(roles);
 
         Profile profile = new Profile(userRequest.getProfile().getFirstName(), userRequest.getProfile().getLastName(), false, user);
@@ -96,23 +96,35 @@ public class UserController {
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
-    // @PutMapping("/{id}")
-    // public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UserRequest userRequest, HttpServletRequest request) {
-    //     User user = new User(
-    //         userRequest.getEmail(),
-    //         userRequest.getPassword()
-    //     );
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UserRequest userRequest, HttpServletRequest request) {
+        System.out.println(userRequest.toString());
+        System.out.println(userRequest.getProfile().toString());
 
-    //     final User updateUser = this.userService.update(id, user);
+        // User user = new User(
+        //     userRequest.getEmail(),
+        //     userRequest.getPassword()
+        // );
 
-    //     if (updateUser == null) {
-    //         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    //     }
+        // List<Role> roles = Collections.emptyList();
+        // user.setRoles(roles);
 
-    //     final UserResponse userResponse = this.objectMapper.convertValue(updateUser, UserResponse.class);
+        // Profile profile = new Profile(userRequest.getProfile().getFirstName(), userRequest.getProfile().getLastName(), false, user);
+        // user.setProfile(profile);
 
-    //     return new ResponseEntity<>(userResponse, HttpStatus.ACCEPTED);
-    // }
+        // Activity activity = new Activity(request.getRemoteAddr(), LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now(), user);
+        // user.setActivity(activity);
+
+        // final User updateUser = this.userService.update(id, user);
+
+        // if (updateUser == null) {
+        //     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        // }
+
+        // final UserResponse userResponse = this.objectMapper.convertValue(updateUser, UserResponse.class);
+
+        return new ResponseEntity<>("userResponse", HttpStatus.ACCEPTED);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> destroy(@PathVariable Long id) {

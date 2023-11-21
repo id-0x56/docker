@@ -24,8 +24,8 @@ public class Profile {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "verified")
-    private boolean verified;
+    @Column(name = "verify")
+    private boolean verify;
 
     @JsonIgnore
     @OneToOne
@@ -35,10 +35,10 @@ public class Profile {
 
     protected Profile() {}
 
-    public Profile(String firstName, String lastName, boolean verified, User user) {
+    public Profile(String firstName, String lastName, boolean verify, User user) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.verified = verified;
+        this.verify = verify;
         this.user = user;
     }
 
@@ -66,12 +66,12 @@ public class Profile {
         this.lastName = lastName;
     }
 
-    public boolean getVerified() {
-        return this.verified;
+    public boolean isVerify() {
+        return this.verify;
     }
 
-    public void setVerified(boolean verified) {
-        this.verified = verified;
+    public void setVerify(boolean verify) {
+        this.verify = verify;
     }
 
     public User getUser() {

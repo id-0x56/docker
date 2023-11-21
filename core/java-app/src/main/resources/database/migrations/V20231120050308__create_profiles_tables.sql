@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS profiles (
     user_id BIGINT NOT NULL,
-    verified BOOLEAN NOT NULL DEFAULT FALSE,
+    verify BOOLEAN NOT NULL DEFAULT FALSE,
     first_name VARCHAR(32) NOT NULL,
     last_name VARCHAR(32) NOT NULL,
 
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS profiles (
 
 -- CREATE TABLE IF NOT EXISTS `profiles` (
 --     `user_id` BIGINT NOT NULL,
---     `verified` BOOLEAN NOT NULL DEFAULT 0,
+--     `verify` BOOLEAN NOT NULL DEFAULT 0,
 --     `first_name` VARCHAR(32) NOT NULL,
 --     `last_name` VARCHAR(32) NOT NULL,
 
