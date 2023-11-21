@@ -1,10 +1,6 @@
 package com.example.rest.request;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.example.rest.entity.Profile;
-import com.example.rest.entity.Role;
 
 public class UserRequest {
     private String email;
@@ -12,8 +8,6 @@ public class UserRequest {
     private String password;
 
     private Profile profile;
-
-    private List<Role> roles = new ArrayList<>();
 
     public String getEmail() {
         return this.email;
@@ -37,13 +31,5 @@ public class UserRequest {
 
     public void setProfile(Profile profile) {
         this.profile = profile;
-    }
-
-    public List<Role> getRoles() {
-        return this.roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
     }
 }

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.rest.entity.Activity;
 import com.example.rest.entity.Profile;
-import com.example.rest.entity.Role;
 import com.example.rest.entity.User;
 import com.example.rest.request.UserRequest;
 import com.example.rest.response.UserResponse;
@@ -67,14 +66,17 @@ public class UserController {
             userRequest.getPassword()
         );
 
-        List<Role> roles = userRequest.getRoles();
-        user.setRoles(roles);
+        user.setRoles(
+            Collections.emptyList()
+        );
 
-        Profile profile = new Profile(userRequest.getProfile().getFirstName(), userRequest.getProfile().getLastName(), false, user);
-        user.setProfile(profile);
+        user.setProfile(
+            new Profile(userRequest.getProfile().getFirstName(), userRequest.getProfile().getLastName(), false, user)
+        );
 
-        Activity activity = new Activity(request.getRemoteAddr(), LocalDateTime.now(), LocalDateTime.now(), null, user);
-        user.setActivity(activity);
+        user.setActivity(
+            new Activity(request.getRemoteAddr(), LocalDateTime.now(), LocalDateTime.now(), null, user)
+        );
 
         final User storeUser = this.userService.save(user);
 
@@ -98,32 +100,32 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UserRequest userRequest, HttpServletRequest request) {
-        System.out.println(userRequest.toString());
-        System.out.println(userRequest.getProfile().toString());
+        User user = new User(
+            userRequest.getEmail(),
+            userRequest.getPassword()
+        );
 
-        // User user = new User(
-        //     userRequest.getEmail(),
-        //     userRequest.getPassword()
-        // );
+        user.setRoles(
+            Collections.emptyList()
+        );
 
-        // List<Role> roles = Collections.emptyList();
-        // user.setRoles(roles);
+        user.setProfile(
+            new Profile(userRequest.getProfile().getFirstName(), userRequest.getProfile().getLastName(), false, user)
+        );
 
-        // Profile profile = new Profile(userRequest.getProfile().getFirstName(), userRequest.getProfile().getLastName(), false, user);
-        // user.setProfile(profile);
+        user.setActivity(
+            new Activity(request.getRemoteAddr(), LocalDateTime.now(), null, LocalDateTime.now(), user)
+        );
 
-        // Activity activity = new Activity(request.getRemoteAddr(), LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now(), user);
-        // user.setActivity(activity);
+        final User updateUser = this.userService.update(id, user);
 
-        // final User updateUser = this.userService.update(id, user);
+        if (updateUser == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-        // if (updateUser == null) {
-        //     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        // }
+        final UserResponse userResponse = this.objectMapper.convertValue(updateUser, UserResponse.class);
 
-        // final UserResponse userResponse = this.objectMapper.convertValue(updateUser, UserResponse.class);
-
-        return new ResponseEntity<>("userResponse", HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(userResponse, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")

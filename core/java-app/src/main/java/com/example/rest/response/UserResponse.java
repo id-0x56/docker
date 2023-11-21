@@ -1,6 +1,5 @@
 package com.example.rest.response;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.example.rest.entity.Activity;
@@ -14,7 +13,7 @@ public class UserResponse {
 
     private Profile profile;
 
-    private List<Role> roles = new ArrayList<>();
+    private List<Role> roles;
 
     private Activity activity;
 

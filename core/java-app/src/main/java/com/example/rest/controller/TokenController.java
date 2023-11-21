@@ -49,18 +49,21 @@ public class TokenController {
         }
 
         User user = new User(
-            tokenRequest.getEmail(),         // email
-            tokenRequest.getPassword()       // password
+            tokenRequest.getEmail(),
+            tokenRequest.getPassword()
         );
 
-        List<Role> roles = Collections.emptyList();
-        user.setRoles(roles);               // roles
+        user.setRoles(
+            Collections.emptyList()
+        );
 
-        Profile profile = new Profile("", "", true, user);
-        user.setProfile(profile);           // profile
+        user.setProfile(
+            new Profile("", "", false, user)
+        );
 
-        Activity activity = new Activity(request.getRemoteAddr(), LocalDateTime.now(), LocalDateTime.now(), null, user);
-        user.setActivity(activity);         // activity
+        user.setActivity(
+            new Activity(request.getRemoteAddr(), LocalDateTime.now(), LocalDateTime.now(), null, user)
+        );
 
         final User storeUser = this.userService.save(user);
 
