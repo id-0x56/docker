@@ -2,7 +2,6 @@ package com.example.rest.controller;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.rest.entity.Activity;
 import com.example.rest.entity.Profile;
-import com.example.rest.entity.Role;
 import com.example.rest.entity.User;
 import com.example.rest.request.TokenRequest;
 import com.example.rest.response.TokenResponse;
