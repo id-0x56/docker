@@ -23,6 +23,7 @@ import com.example.rest.service.JwtService;
 import com.example.rest.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/token")
@@ -41,7 +42,7 @@ public class TokenController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/registration")
-    public ResponseEntity<?> token(TokenRequest tokenRequest, HttpServletRequest request) {
+    public ResponseEntity<?> token(@Valid TokenRequest tokenRequest, HttpServletRequest request) {
         if (this.userService.find(tokenRequest.getEmail()) != null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -76,7 +77,7 @@ public class TokenController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<?> refresh(TokenRequest tokenRequest, HttpServletRequest request) {
+    public ResponseEntity<?> refresh(@Valid TokenRequest tokenRequest, HttpServletRequest request) {
         try {
             authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

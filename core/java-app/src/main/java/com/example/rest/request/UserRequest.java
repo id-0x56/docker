@@ -5,11 +5,16 @@ import java.util.List;
 import com.example.rest.entity.Profile;
 import com.example.rest.entity.Role;
 
+import jakarta.validation.constraints.NotNull;
+
 public class UserRequest {
+    @NotNull
     private String email;
 
+    @NotNull
     private String password;
 
+    @NotNull
     private Profile profile;
 
     private List<Role> roles;

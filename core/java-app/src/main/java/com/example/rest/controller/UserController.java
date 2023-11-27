@@ -22,6 +22,8 @@ import com.example.rest.service.UserService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
@@ -54,7 +56,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> store(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<?> store(@Valid @RequestBody UserRequest userRequest) {
         User user = new User(
             userRequest.getEmail(),
             userRequest.getPassword()
@@ -85,7 +87,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UserRequest userRequest) {
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody UserRequest userRequest) {
         User user = new User(
             userRequest.getEmail(),
             userRequest.getPassword()

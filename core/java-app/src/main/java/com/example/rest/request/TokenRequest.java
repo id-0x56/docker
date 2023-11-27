@@ -1,8 +1,12 @@
 package com.example.rest.request;
 
+import jakarta.validation.constraints.NotNull;
+
 public class TokenRequest {
+    @NotNull
     private String email;
 
+    @NotNull
     private String password;
 
     public String getEmail() {
