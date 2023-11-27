@@ -48,7 +48,8 @@ public class UserService {
     public User save(User user) {
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));
 
-        user.getProfile().setUser(user);
+        Profile profile = user.getProfile();
+        profile.setUser(user);
 
         List<Role> roles = new ArrayList<>();
         Role defaultRole = this.roleRepository.findByName("ROLE_USER").get();
@@ -63,7 +64,13 @@ public class UserService {
         }
         user.setRoles(roles);
 
-        Activity activity = new Activity(this.request.getRemoteAddr(), LocalDateTime.now(), LocalDateTime.now(), null, user);
+        Activity activity = new Activity(
+            this.request.getRemoteAddr(),
+            LocalDateTime.now(),
+            LocalDateTime.now(),
+            null,
+            user
+        );
         user.setActivity(activity);
 
         return this.userRepository.save(user);
