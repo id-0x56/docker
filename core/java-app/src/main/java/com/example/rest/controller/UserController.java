@@ -1,7 +1,5 @@
 package com.example.rest.controller;
 
-import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,16 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.rest.entity.Activity;
-import com.example.rest.entity.Profile;
 import com.example.rest.entity.User;
 import com.example.rest.request.UserRequest;
 import com.example.rest.response.UserResponse;
 import com.example.rest.service.UserService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -60,23 +54,15 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> store(@RequestBody UserRequest userRequest, HttpServletRequest request) {
+    public ResponseEntity<?> store(@RequestBody UserRequest userRequest) {
         User user = new User(
             userRequest.getEmail(),
             userRequest.getPassword()
         );
 
-        user.setRoles(
-            Collections.emptyList()
-        );
+        user.setProfile(userRequest.getProfile());
 
-        user.setProfile(
-            new Profile(userRequest.getProfile().getFirstName(), userRequest.getProfile().getLastName(), false, user)
-        );
-
-        user.setActivity(
-            new Activity(request.getRemoteAddr(), LocalDateTime.now(), LocalDateTime.now(), null, user)
-        );
+        user.setRoles(userRequest.getRoles());
 
         final User storeUser = this.userService.save(user);
 
@@ -99,23 +85,15 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UserRequest userRequest, HttpServletRequest request) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UserRequest userRequest) {
         User user = new User(
             userRequest.getEmail(),
             userRequest.getPassword()
         );
 
-        user.setRoles(
-            Collections.emptyList()
-        );
+        user.setProfile(userRequest.getProfile());
 
-        user.setProfile(
-            new Profile(userRequest.getProfile().getFirstName(), userRequest.getProfile().getLastName(), false, user)
-        );
-
-        user.setActivity(
-            new Activity(request.getRemoteAddr(), LocalDateTime.now(), null, LocalDateTime.now(), user)
-        );
+        user.setRoles(userRequest.getRoles());
 
         final User updateUser = this.userService.update(id, user);
 

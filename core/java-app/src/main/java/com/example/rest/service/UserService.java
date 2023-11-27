@@ -1,9 +1,11 @@
 package com.example.rest.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -12,10 +14,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.rest.entity.Activity;
+import com.example.rest.entity.Profile;
 import com.example.rest.entity.Role;
 import com.example.rest.entity.User;
 import com.example.rest.repository.RoleRepository;
 import com.example.rest.repository.UserRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class UserService {
@@ -29,6 +35,9 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private HttpServletRequest request;
+
     public List<User> all() {
         List<User> listUser = new ArrayList<>();
         this.userRepository.findAll().forEach(listUser::add);
@@ -37,12 +46,25 @@ public class UserService {
     }
 
     public User save(User user) {
-        if (user.getRoles().isEmpty()) {
-            Role role = this.roleRepository.findByName("ROLE_USER").get();
-            user.setRoles(List.of(role));
-        }
-
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+
+        user.getProfile().setUser(user);
+
+        List<Role> roles = new ArrayList<>();
+        Role defaultRole = this.roleRepository.findByName("ROLE_USER").get();
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+            roles.add(defaultRole);
+        } else {
+            roles = user.getRoles().stream().map(
+                role -> this.roleRepository
+                    .findByName(role.getName())
+                    .orElse(defaultRole)
+            ).distinct().collect(Collectors.toList());
+        }
+        user.setRoles(roles);
+
+        Activity activity = new Activity(this.request.getRemoteAddr(), LocalDateTime.now(), LocalDateTime.now(), null, user);
+        user.setActivity(activity);
 
         return this.userRepository.save(user);
     }
@@ -71,12 +93,30 @@ public class UserService {
         updateUser.setEmail(user.getEmail());
         updateUser.setPassword(this.passwordEncoder.encode(user.getPassword()));
 
-        updateUser.setRoles(user.getRoles());
+        Profile profile = updateUser.getProfile();
+        profile.setFirstName(user.getProfile().getFirstName());
+        profile.setLastName(user.getProfile().getLastName());
+        profile.setVerify(user.getProfile().isVerify());
 
-        updateUser.setProfile(user.getProfile());
+        List<Role> roles = new ArrayList<>();
+        Role defaultRole = this.roleRepository.findByName("ROLE_USER").get();
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+            roles.add(defaultRole);
+        } else {
+            roles = user.getRoles().stream().map(
+                role -> this.roleRepository
+                    .findByName(role.getName())
+                    .orElse(defaultRole)
+            ).distinct().collect(Collectors.toList());
+        }
+        updateUser.setRoles(roles);
 
-        user.getActivity().setCreatedAt(updateUser.getActivity().getCreatedAt());
-        updateUser.setActivity(user.getActivity());
+        Activity activity = updateUser.getActivity();
+        activity.setLastLoginIP(this.request.getRemoteAddr());
+        activity.setLastLoginAt(LocalDateTime.now());
+
+        activity.setCreatedAt(activity.getCreatedAt());
+        activity.setUpdatedAt(LocalDateTime.now());
 
         return this.userRepository.save(updateUser);
     }
