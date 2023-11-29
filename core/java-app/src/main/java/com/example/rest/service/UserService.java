@@ -2,9 +2,7 @@ package com.example.rest.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +16,7 @@ import com.example.rest.entity.Activity;
 import com.example.rest.entity.Profile;
 import com.example.rest.entity.Role;
 import com.example.rest.entity.User;
+import com.example.rest.exception.NotFoundException;
 import com.example.rest.repository.RoleRepository;
 import com.example.rest.repository.UserRepository;
 
@@ -39,17 +38,26 @@ public class UserService {
     private HttpServletRequest request;
 
     public List<User> all() {
-        List<User> listUser = new ArrayList<>();
-        this.userRepository.findAll().forEach(listUser::add);
+        List<User> users = new ArrayList<>();
+        this.userRepository.findAll().forEach(users::add);
 
-        return ((Collection<?>) listUser).size() > 0 ? listUser : null;
+        if (users.isEmpty()) {
+            throw new NotFoundException("Users not found");
+        }
+
+        return users;
     }
 
     public User save(User user) {
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));
 
-        Profile profile = user.getProfile();
-        profile.setUser(user);
+        Profile profile = new Profile(
+            user.getProfile().getFirstName(),
+            user.getProfile().getLastName(),
+            user.getProfile().isVerify(),
+            user
+        );
+        user.setProfile(profile);
 
         List<Role> roles = new ArrayList<>();
         Role defaultRole = this.roleRepository.findByName("ROLE_USER").get();
@@ -77,25 +85,22 @@ public class UserService {
     }
 
     public User find(Long id) {
-        Optional<User> optionalUser = this.userRepository.findById(id);
+        User user = this.userRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("User with id: \"" + id + "\" not found"));
 
-        return optionalUser.isPresent() ? optionalUser.get() : null;
+        return user;
     }
 
     public User find(String email) {
-        Optional<User> optionalUser = this.userRepository.findByEmail(email);
+        User user = this.userRepository.findByEmail(email)
+            .orElseThrow(() -> new NotFoundException("User with email: \"" + email + "\" not found"));
 
-        return optionalUser.isPresent() ? optionalUser.get() : null;
+        return user;
     }
 
     public User update(Long id, User user) {
-        Optional<User> optionalUser = this.userRepository.findById(id);
-
-        if (!optionalUser.isPresent()) {
-            return null;
-        }
-
-        User updateUser = optionalUser.get();
+        User updateUser = this.userRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("User with id: \"" + id + "\" not found"));
 
         updateUser.setEmail(user.getEmail());
         updateUser.setPassword(this.passwordEncoder.encode(user.getPassword()));
@@ -129,18 +134,23 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        this.userRepository.deleteById(id);
+        if (this.userRepository.existsById(id)) {
+            this.userRepository.deleteById(id);
+        } else {
+            throw new NotFoundException("User with id: \"" + id + "\" not found");
+        }
     }
 
     public User current() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null && authentication instanceof AnonymousAuthenticationToken && !authentication.isAuthenticated()) {
-            return null;
+            throw new NotFoundException("Authenticated user not found");
         }
 
-        Optional<User> optionalUser = this.userRepository.findByEmail(authentication.getName());
+        User user = this.userRepository.findByEmail(authentication.getName())
+            .orElseThrow(() -> new NotFoundException("Authenticated user not found"));
 
-        return optionalUser.isPresent() ? optionalUser.get() : null;
+        return user;
     }
 }
