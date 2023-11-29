@@ -1,7 +1,6 @@
 package com.example.rest.controller;
 
 import java.util.Collections;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.rest.entity.Profile;
 import com.example.rest.entity.User;
-import com.example.rest.repository.UserRepository;
+import com.example.rest.exception.UnauthorizedException;
 import com.example.rest.request.TokenRequest;
 import com.example.rest.response.TokenResponse;
 import com.example.rest.service.JwtService;
@@ -33,9 +32,6 @@ public class TokenController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
@@ -46,11 +42,6 @@ public class TokenController {
 
     @PostMapping("/registration")
     public ResponseEntity<?> registration(@Valid TokenRequest tokenRequest, HttpServletRequest request) {
-        Optional<User> optionalUser = this.userRepository.findByEmail(tokenRequest.getEmail());
-        if (optionalUser.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
         User user = new User(
             tokenRequest.getEmail(),
             tokenRequest.getPassword()
@@ -85,7 +76,7 @@ public class TokenController {
                 )
             );
         } catch (BadCredentialsException exception) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            throw new UnauthorizedException("Credentials are invalid");
         }
 
         TokenResponse tokenResponse = new TokenResponse();

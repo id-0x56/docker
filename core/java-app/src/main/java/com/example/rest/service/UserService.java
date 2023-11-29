@@ -16,6 +16,7 @@ import com.example.rest.entity.Activity;
 import com.example.rest.entity.Profile;
 import com.example.rest.entity.Role;
 import com.example.rest.entity.User;
+import com.example.rest.exception.AlreadyExistException;
 import com.example.rest.exception.NotFoundException;
 import com.example.rest.repository.RoleRepository;
 import com.example.rest.repository.UserRepository;
@@ -49,6 +50,10 @@ public class UserService {
     }
 
     public User save(User user) {
+        if (this.userRepository.existsByEmail(user.getEmail())) {
+            throw new AlreadyExistException("User with email: \"" + user.getEmail() + "\" already exists");
+        }
+
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));
 
         Profile profile = new Profile(
