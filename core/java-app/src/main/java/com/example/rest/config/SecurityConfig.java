@@ -23,7 +23,7 @@ import com.example.rest.filter.JwtFilter;
 import com.example.rest.service.UserDetailsService;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
 @EnableMethodSecurity(securedEnabled = true, prePostEnabled = false)
 public class SecurityConfig {
 

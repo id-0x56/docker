@@ -25,7 +25,8 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String email) {
-        User user = this.userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email " + email + " not found"));
+        User user = this.userRepository.findByEmail(email)
+            .orElseThrow(() -> new UsernameNotFoundException("User with email: \"" + email + "\" not found"));
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities = user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
