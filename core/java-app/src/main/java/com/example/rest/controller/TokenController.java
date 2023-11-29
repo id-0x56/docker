@@ -1,7 +1,7 @@
 package com.example.rest.controller;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.rest.entity.Activity;
 import com.example.rest.entity.Profile;
 import com.example.rest.entity.User;
+import com.example.rest.repository.UserRepository;
 import com.example.rest.request.TokenRequest;
 import com.example.rest.response.TokenResponse;
 import com.example.rest.service.JwtService;
@@ -33,6 +33,9 @@ public class TokenController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -42,8 +45,9 @@ public class TokenController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/registration")
-    public ResponseEntity<?> token(@Valid TokenRequest tokenRequest, HttpServletRequest request) {
-        if (this.userService.find(tokenRequest.getEmail()) != null) {
+    public ResponseEntity<?> registration(@Valid TokenRequest tokenRequest, HttpServletRequest request) {
+        Optional<User> optionalUser = this.userRepository.findByEmail(tokenRequest.getEmail());
+        if (optionalUser.isPresent()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -52,16 +56,12 @@ public class TokenController {
             tokenRequest.getPassword()
         );
 
-        user.setRoles(
-            Collections.emptyList()
-        );
-
         user.setProfile(
             new Profile("", "", false, user)
         );
 
-        user.setActivity(
-            new Activity(request.getRemoteAddr(), LocalDateTime.now(), LocalDateTime.now(), null, user)
+        user.setRoles(
+            Collections.emptyList()
         );
 
         final User storeUser = this.userService.save(user);
