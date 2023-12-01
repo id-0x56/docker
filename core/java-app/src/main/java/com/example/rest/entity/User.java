@@ -15,6 +15,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users")
@@ -25,12 +26,15 @@ public class User {
     @Column(name = "id")
     private Long id;
 
+    @NotNull(message = "Invalid email: Email is NULL")
     @Column(name = "email")
     private String email;
 
+    @NotNull(message = "Invalid password: Password is NULL")
     @Column(name = "password")
     private String password;
 
+    @NotNull(message = "Invalid profile: Profile is NULL")
     @OneToOne(
         mappedBy = "user",
         cascade = CascadeType.ALL

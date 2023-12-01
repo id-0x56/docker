@@ -8,13 +8,14 @@ import com.example.rest.entity.Role;
 import jakarta.validation.constraints.NotNull;
 
 public class UserRequest {
-    @NotNull
+
+    @NotNull(message = "Invalid email: Email is NULL")
     private String email;
 
-    @NotNull
+    @NotNull(message = "Invalid password: Password is NULL")
     private String password;
 
-    @NotNull
+    @NotNull(message = "Invalid profile: Profile is NULL")
     private Profile profile;
 
     private List<Role> roles;

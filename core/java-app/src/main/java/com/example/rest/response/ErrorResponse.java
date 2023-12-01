@@ -1,18 +1,19 @@
 package com.example.rest.response;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ErrorResponse {
 
     private int code;
 
-    private String message;
+    private List<String> messages;
 
     private LocalDateTime date;
 
-    public ErrorResponse(int code, String message, LocalDateTime date) {
+    public ErrorResponse(int code, List<String> messages, LocalDateTime date) {
         this.code = code;
-        this.message = message;
+        this.messages = messages;
         this.date = date;
     }
 
@@ -24,12 +25,12 @@ public class ErrorResponse {
         this.code = code;
     }
 
-    public String getMessage() {
-        return this.message;
+    public List<String> getMessages() {
+        return this.messages;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMessages(List<String> messages) {
+        this.messages = messages;
     }
 
     public LocalDateTime getDate() {

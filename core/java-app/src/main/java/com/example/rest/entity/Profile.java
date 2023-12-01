@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "profiles")
@@ -18,9 +19,11 @@ public class Profile {
     @Column(name = "user_id")
     private Long id;
 
+    @NotNull(message = "Invalid first_name: First name is NULL")
     @Column(name = "first_name")
     private String firstName;
 
+    @NotNull(message = "Invalid last_name: Last name is NULL")
     @Column(name = "last_name")
     private String lastName;
 

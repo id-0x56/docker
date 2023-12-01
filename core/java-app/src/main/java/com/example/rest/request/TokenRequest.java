@@ -3,10 +3,11 @@ package com.example.rest.request;
 import jakarta.validation.constraints.NotNull;
 
 public class TokenRequest {
-    @NotNull
+    
+    @NotNull(message = "Invalid email: Email is NULL")
     private String email;
 
-    @NotNull
+    @NotNull(message = "Invalid password: Password is NULL")
     private String password;
 
     public String getEmail() {
