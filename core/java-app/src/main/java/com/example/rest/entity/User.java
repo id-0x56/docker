@@ -1,7 +1,6 @@
 package com.example.rest.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -48,7 +47,7 @@ public class User {
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<Role> roles = new ArrayList<>();
+    private Set<Role> roles;
 
     @OneToOne(
         mappedBy = "user",
@@ -59,7 +58,7 @@ public class User {
 
     protected User() {}
 
-    public User(String email, String password, Profile profile, List<Role> roles, Activity activity) {
+    public User(String email, String password, Profile profile, Set<Role> roles, Activity activity) {
         this.email = email;
         this.password = password;
         this.profile = profile;
@@ -104,11 +103,11 @@ public class User {
         this.profile = profile;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return this.roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 

@@ -1,6 +1,5 @@
 package com.example.rest.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,7 +26,7 @@ public class Role {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "roles")
-    private List<User> users = new ArrayList<>();
+    private List<User> users;
 
     protected Role() {}
 

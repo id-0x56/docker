@@ -2,7 +2,9 @@ package com.example.rest.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import com.example.rest.repository.RoleRepository;
 import com.example.rest.repository.UserRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserService {
@@ -49,6 +52,7 @@ public class UserService {
         return users;
     }
 
+    @Transactional
     public User save(User user) {
         if (this.userRepository.existsByEmail(user.getEmail())) {
             throw new AlreadyExistException("User with email: \"" + user.getEmail() + "\" already exists");
@@ -64,7 +68,7 @@ public class UserService {
         );
         user.setProfile(profile);
 
-        List<Role> roles = new ArrayList<>();
+        Set<Role> roles = new HashSet<>();
         Role defaultRole = this.roleRepository.findByName("ROLE_USER").get();
         if (user.getRoles() == null || user.getRoles().isEmpty()) {
             roles.add(defaultRole);
@@ -73,7 +77,7 @@ public class UserService {
                 role -> this.roleRepository
                     .findByName(role.getName())
                     .orElse(defaultRole)
-            ).distinct().collect(Collectors.toList());
+            ).collect(Collectors.toSet());
         }
         user.setRoles(roles);
 
@@ -103,6 +107,7 @@ public class UserService {
         return user;
     }
 
+    @Transactional
     public User update(Long id, User user) {
         User updateUser = this.userRepository.findById(id)
             .orElseThrow(() -> new NotFoundException("User with id: \"" + id + "\" not found"));
@@ -115,7 +120,7 @@ public class UserService {
         profile.setLastName(user.getProfile().getLastName());
         profile.setVerify(user.getProfile().isVerify());
 
-        List<Role> roles = new ArrayList<>();
+        Set<Role> roles = new HashSet<>();
         Role defaultRole = this.roleRepository.findByName("ROLE_USER").get();
         if (user.getRoles() == null || user.getRoles().isEmpty()) {
             roles.add(defaultRole);
@@ -124,7 +129,7 @@ public class UserService {
                 role -> this.roleRepository
                     .findByName(role.getName())
                     .orElse(defaultRole)
-            ).distinct().collect(Collectors.toList());
+            ).collect(Collectors.toSet());
         }
         updateUser.setRoles(roles);
 

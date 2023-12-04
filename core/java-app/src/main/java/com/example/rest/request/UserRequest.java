@@ -1,6 +1,6 @@
 package com.example.rest.request;
 
-import java.util.List;
+import java.util.Set;
 
 import com.example.rest.entity.Profile;
 import com.example.rest.entity.Role;
@@ -18,7 +18,7 @@ public class UserRequest {
     @NotNull(message = "Invalid profile: Profile is NULL")
     private Profile profile;
 
-    private List<Role> roles;
+    private Set<Role> roles;
 
     public String getEmail() {
         return this.email;
@@ -44,11 +44,11 @@ public class UserRequest {
         this.profile = profile;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 }

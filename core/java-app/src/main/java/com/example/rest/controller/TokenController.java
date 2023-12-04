@@ -52,7 +52,7 @@ public class TokenController {
         );
 
         user.setRoles(
-            Collections.emptyList()
+            Collections.emptySet()
         );
 
         final User storeUser = this.userService.save(user);
