@@ -1,6 +1,6 @@
 package com.example.rest.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,7 +30,7 @@ public class Profile {
     @Column(name = "verify")
     private boolean verify;
 
-    @JsonIgnore
+    @JsonBackReference
     @OneToOne
     @MapsId
     @JoinColumn(name = "user_id")
