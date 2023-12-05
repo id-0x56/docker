@@ -8,6 +8,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,6 +44,7 @@ public class UserService {
     @Autowired
     private HttpServletRequest request;
 
+    @Cacheable(value = "users")
     public List<User> all() {
         List<User> users = new ArrayList<>();
         this.userRepository.findAll().forEach(users::add);
@@ -52,6 +56,7 @@ public class UserService {
         return users;
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     @Transactional
     public User save(User user) {
         if (this.userRepository.existsByEmail(user.getEmail())) {
@@ -93,6 +98,7 @@ public class UserService {
         return this.userRepository.save(user);
     }
 
+    @Cacheable(value = "user", key = "#id")
     public User find(Long id) {
         User user = this.userRepository.findById(id)
             .orElseThrow(() -> new NotFoundException("User with id: \"" + id + "\" not found"));
@@ -107,6 +113,12 @@ public class UserService {
         return user;
     }
 
+    @Caching(
+        evict = {
+            @CacheEvict(value = "user", key = "#id"),
+            @CacheEvict(value = "users", allEntries = true)
+        }
+    )
     @Transactional
     public User update(Long id, User user) {
         User updateUser = this.userRepository.findById(id)
@@ -143,6 +155,12 @@ public class UserService {
         return this.userRepository.save(updateUser);
     }
 
+    @Caching(
+        evict = {
+            @CacheEvict(value = "user", key = "#id"),
+            @CacheEvict(value = "users", allEntries = true)
+        }
+    )
     public void delete(Long id) {
         if (this.userRepository.existsById(id)) {
             this.userRepository.deleteById(id);

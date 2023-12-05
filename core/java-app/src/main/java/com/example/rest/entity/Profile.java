@@ -1,5 +1,7 @@
 package com.example.rest.entity;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
@@ -13,7 +15,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "profiles")
-public class Profile {
+public class Profile implements Serializable {
 
     @Id
     @Column(name = "user_id")

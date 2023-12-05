@@ -1,5 +1,6 @@
 package com.example.rest.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -14,7 +15,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "activities")
-public class Activity {
+public class Activity implements Serializable {
 
     @Id
     @Column(name = "user_id")

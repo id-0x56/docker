@@ -155,6 +155,22 @@ services:
         networks:
             - app-network
 
+    redis:
+        build:
+            context: ./docker/redis
+        container_name: redis
+        command: redis-server --requirepass password
+        restart: always
+        ports:
+            - '6379:6379'
+        # environment:
+            # REDIS_PASSWORD: ${REDIS_PASSWORD}
+            # ALLOW_EMPTY_PASSWORD: 'yes'
+        volumes:
+            - redis-data:/data
+        networks:
+            - app-network
+
 networks:
     app-network:
         driver: bridge
@@ -170,4 +186,7 @@ volumes:
         driver: local
 
     minio-data:
+        driver: local
+
+    redis-data:
         driver: local
