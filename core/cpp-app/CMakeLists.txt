@@ -9,9 +9,9 @@ add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME}
     PRIVATE
         ${PROJECT_SOURCE_DIR}/src/main.cpp
-        ${PROJECT_SOURCE_DIR}/src/main.h
-        ${PROJECT_SOURCE_DIR}/src/application/application.cpp
-        ${PROJECT_SOURCE_DIR}/src/application/application.h
+
+        ${PROJECT_SOURCE_DIR}/src/Application/Application.h
+        ${PROJECT_SOURCE_DIR}/src/Application/Application.cpp
 )
 include_directories(${PROJECT_SOURCE_DIR}/include)
 

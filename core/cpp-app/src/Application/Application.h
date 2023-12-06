@@ -1,5 +1,5 @@
-#ifndef APPLICATION_H
-    #define APPLICATION_H
+#ifndef APPLICATION_APPLICATION_H
+    #define APPLICATION_APPLICATION_H
 
     #include <iostream>
 
@@ -17,12 +17,12 @@
 
             ~Application();
 
-            bool isExecute() const;
-            void isExecute(bool isExecute);
+            bool isExec() const;
+            void isExec(const bool is_exec);
 
-            void execute();
+            void exec();
 
         private:
-            bool m_isExecute;
+            bool is_exec_;
     };
 #endif

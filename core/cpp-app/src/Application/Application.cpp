@@ -1,4 +1,4 @@
-#include "application.h"
+#include "Application.h"
 
 #ifdef __linux__
     int getch()
@@ -18,33 +18,33 @@
     }
 #endif
 
-Application::Application()
+Application::Application(): is_exec_(false)
 {
-    this->isExecute(true);
+    this->isExec(true);
 }
 
 Application::~Application()
 {
-    this->isExecute(false);
+    this->isExec(false);
 }
 
-bool Application::isExecute() const
+bool Application::isExec() const
 {
-    return this->m_isExecute;
+    return this->is_exec_;
 }
 
-void Application::isExecute(bool isExecute)
+void Application::isExec(const bool is_exec)
 {
-    this->m_isExecute = isExecute;
+    this->is_exec_ = is_exec;
 }
 
-void Application::execute()
+void Application::exec()
 {
-    while (this->isExecute()) {
+    while (this->isExec()) {
         int ch = getch();
 
         if (ch == 'q') {
-            this->isExecute(false);
+            this->isExec(false);
         } else {
             std::cout << "character: " << ch << std::endl;
         }
