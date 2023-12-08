@@ -53,8 +53,8 @@ RUN rm -rf /etc/apt/sources.list.d/* \
     && rm -rf /var/lib/apt/lists/*
 
 RUN find /usr/ /var/ -name "*opencv*" | xargs rm -rf \
-    && git clone https://github.com/opencv/opencv_contrib.git /src/opencv_contrib \
-    && git clone https://github.com/opencv/opencv.git /src/opencv \
+    && git clone --depth 1 https://github.com/opencv/opencv_contrib.git /src/opencv_contrib \
+    && git clone --depth 1 https://github.com/opencv/opencv.git /src/opencv \
     && mkdir -p /src/opencv/build \
     && cd /src/opencv/build \
     && cmake \
@@ -86,7 +86,7 @@ RUN find /usr/ /var/ -name "*opencv*" | xargs rm -rf \
     && ldconfig \
     && rm -rf /src/opencv_contrib /src/opencv
 
-RUN git clone https://github.com/ultralytics/ultralytics /src/ultralytics \
+RUN git clone --depth 1 https://github.com/ultralytics/ultralytics /src/ultralytics \
     && cd /src/ultralytics \
     && pip install -e . \
     && rm -rf /root/.cache/pip \
@@ -96,7 +96,7 @@ RUN git clone https://github.com/ultralytics/ultralytics /src/ultralytics \
 RUN apt update \
     && apt install --no-install-recommends -y libssl-dev libevent-dev libev-dev \
     && rm -rf /var/lib/apt/lists/* \
-    && git clone https://github.com/CopernicaMarketingSoftware/AMQP-CPP.git /src/AMQP-CPP \
+    && git clone --depth 1 https://github.com/CopernicaMarketingSoftware/AMQP-CPP.git /src/AMQP-CPP \
     && mkdir -p /src/AMQP-CPP/build \
     && cd /src/AMQP-CPP/build \
     && cmake \
@@ -107,7 +107,7 @@ RUN apt update \
     && ldconfig \
     && rm -rf /src/AMQP-CPP
 
-RUN git clone https://github.com/Microsoft/vcpkg.git /src/vcpkg \
+RUN git clone --depth 1 https://github.com/Microsoft/vcpkg.git /src/vcpkg \
     && /src/vcpkg/bootstrap-vcpkg.sh \
     && /src/vcpkg/vcpkg integrate install \
     && /src/vcpkg/vcpkg install minio-cpp
