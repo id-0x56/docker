@@ -35,7 +35,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (header != null && header.startsWith("Bearer")) {
             jwt = header.substring(7);
-            email = this.jwtService.verify(jwt).getClaim("0").asString();
+            email = this.jwtService.get(jwt, "0");
 
             if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
