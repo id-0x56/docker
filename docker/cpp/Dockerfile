@@ -6,7 +6,13 @@ ARG USERNAME=ubuntu
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && mkdir -p /run/user/$USER_UID \
+    && chmod 0700 /run/user/$USER_UID \
+    && chgrp -R $USERNAME /run/user/$USER_UID \
+    && chown -R $USERNAME /run/user/$USER_UID
+
+ENV XDG_RUNTIME_DIR=/run/user/$USER_UID
 
 ENV TZ=Europe/London
 RUN apt update \
