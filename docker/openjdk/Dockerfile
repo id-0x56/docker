@@ -12,8 +12,13 @@ RUN apk add --no-cache tzdata \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
 
-ENV JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,address=*:5005,server=y,suspend=n
+# ENV JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,address=*:5005,server=y,suspend=n
 RUN apk add --no-cache curl git maven
+
+RUN curl --location https://services.gradle.org/distributions/gradle-8.5-bin.zip --output-dir /opt --create-dirs --remote-name \
+    && unzip /opt/gradle-*-bin.zip -d /opt \
+    && rm -rf /opt/gradle-*-bin.zip \
+    && ln -s /opt/gradle-*/bin/gradle /usr/bin/gradle
 
 WORKDIR /var/www/java-app
 
