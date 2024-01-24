@@ -22,7 +22,7 @@ public class Role implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, unique = true, length = 32)
     private String name;
 
     @JsonBackReference

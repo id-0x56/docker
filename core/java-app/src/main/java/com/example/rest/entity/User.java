@@ -28,11 +28,11 @@ public class User implements Serializable {
     private Long id;
 
     @NotNull(message = "Invalid email: Email is NULL")
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true, length = 64)
     private String email;
 
     @NotNull(message = "Invalid password: Password is NULL")
-    @Column(name = "password")
+    @Column(name = "password", nullable = false, length = 64)
     private String password;
 
     @NotNull(message = "Invalid profile: Profile is NULL")

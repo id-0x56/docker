@@ -22,14 +22,14 @@ public class Profile implements Serializable {
     private Long id;
 
     @NotNull(message = "Invalid first_name: First name is NULL")
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false, length = 32)
     private String firstName;
 
     @NotNull(message = "Invalid last_name: Last name is NULL")
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false, length = 32)
     private String lastName;
 
-    @Column(name = "verify")
+    @Column(name = "verify", nullable = false, columnDefinition = "boolean default false")
     private boolean verify;
 
     @JsonBackReference

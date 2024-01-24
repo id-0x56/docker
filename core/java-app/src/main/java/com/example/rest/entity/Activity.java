@@ -21,16 +21,16 @@ public class Activity implements Serializable {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "last_login_ip")
+    @Column(name = "last_login_ip", length = 64)
     private String lastLoginIP;
 
-    @Column(name = "last_login_at")
+    @Column(name = "last_login_at", nullable = false, columnDefinition= "timestamp with time zone")
     private LocalDateTime lastLoginAt;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false, columnDefinition= "timestamp with time zone")
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", columnDefinition= "timestamp with time zone")
     private LocalDateTime updatedAt;
 
     @JsonBackReference
