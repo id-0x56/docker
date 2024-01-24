@@ -1,15 +1,4 @@
-CREATE TABLE IF NOT EXISTS activities (
-    user_id BIGINT NOT NULL,
-    last_login_ip VARCHAR(64) NULL,
-    last_login_at TIMESTAMPTZ NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL,
-    updated_at TIMESTAMPTZ NULL,
-
-    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
-
-    PRIMARY KEY (user_id)
-);
-
+-- h2, mysql
 -- CREATE TABLE IF NOT EXISTS `activities` (
 --     `user_id` BIGINT NOT NULL,
 --     `last_login_ip` VARCHAR(64) NULL,
@@ -21,3 +10,16 @@ CREATE TABLE IF NOT EXISTS activities (
 
 --     PRIMARY KEY (`user_id`)
 -- );
+
+-- postgres
+CREATE TABLE IF NOT EXISTS activities (
+    user_id BIGINT NOT NULL,
+    last_login_ip VARCHAR(64) NULL,
+    last_login_at TIMESTAMPTZ NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL,
+    updated_at TIMESTAMPTZ NULL,
+
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+
+    PRIMARY KEY (user_id)
+);
