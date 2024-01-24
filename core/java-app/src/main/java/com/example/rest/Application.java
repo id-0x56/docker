@@ -15,7 +15,7 @@ public class Application {
         String username = configurableApplicationContext.getEnvironment().getProperty("spring.datasource.username");
         String password = configurableApplicationContext.getEnvironment().getProperty("spring.datasource.password");
 
-        Flyway flyway = Flyway.configure().dataSource(url, username, password).locations("database/migrations").load();
-        flyway.migrate();
+        // Flyway flyway = Flyway.configure().dataSource(url, username, password).locations("database/migrations").load();
+        // flyway.migrate();
     }
 }

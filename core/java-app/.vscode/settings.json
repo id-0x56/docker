@@ -2,7 +2,7 @@
     "java.configuration.runtimes": [
         {
             "name": "JavaSE-19",
-            "path": "/home/abc/Downloads/jdk-19", // path on local machine
+            "path": "/home/abc/Documents/tmp/jdk-19", // path on local machine
             "default": true,
         },
     ],
