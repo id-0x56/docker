@@ -2,6 +2,7 @@ package com.example.rest.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -58,5 +59,35 @@ public class Role implements Serializable {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        // if (object == null || this.getClass() != object.getClass()) {
+        //     return false;
+        // }
+
+        // Role role = (Role) object;
+
+        if (!(object instanceof Role role)) {
+            return false;
+        }
+
+        return Objects.equals(this.getId(), role.getId())
+            && Objects.equals(this.getName(), role.getName())
+            && Objects.equals(this.getUsers(), role.getUsers());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+            this.getId(),
+            this.getName(),
+            this.getUsers()
+        );
     }
 }

@@ -1,6 +1,7 @@
 package com.example.rest.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -119,5 +120,41 @@ public class User implements Serializable {
 
     public void setActivity(Activity activity) {
         this.activity = activity;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        // if (object == null || this.getClass() != object.getClass()) {
+        //     return false;
+        // }
+
+        // User user = (User) object;
+
+        if (!(object instanceof User user)) {
+            return false;
+        }
+
+        return Objects.equals(this.getId(), user.getId())
+            && Objects.equals(this.getEmail(), user.getEmail())
+            && Objects.equals(this.getPassword(), user.getPassword())
+            && Objects.equals(this.getProfile(), user.getProfile())
+            && Objects.equals(this.getRoles(), user.getRoles())
+            && Objects.equals(this.getActivity(), user.getActivity());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+            this.getId(),
+            this.getEmail(),
+            this.getPassword(),
+            this.getProfile(),
+            this.getRoles(),
+            this.getActivity()
+        );
     }
 }

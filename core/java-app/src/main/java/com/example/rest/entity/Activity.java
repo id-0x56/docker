@@ -2,6 +2,7 @@ package com.example.rest.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -95,5 +96,41 @@ public class Activity implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        // if (object == null || this.getClass() != object.getClass()) {
+        //     return false;
+        // }
+
+        // Activity activity = (Activity) object;
+
+        if (!(object instanceof Activity activity)) {
+            return false;
+        }
+
+        return Objects.equals(this.getId(), activity.getId())
+            && Objects.equals(this.getLastLoginIP(), activity.getLastLoginIP())
+            && Objects.equals(this.getLastLoginAt(), activity.getLastLoginAt())
+            && Objects.equals(this.getCreatedAt(), activity.getCreatedAt())
+            && Objects.equals(this.getUpdatedAt(), activity.getUpdatedAt())
+            && Objects.equals(this.getUser(), activity.getUser());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+            this.getId(),
+            this.getLastLoginIP(),
+            this.getLastLoginAt(),
+            this.getCreatedAt(),
+            this.getUpdatedAt(),
+            this.getUser()
+        );
     }
 }

@@ -1,6 +1,7 @@
 package com.example.rest.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -85,5 +86,39 @@ public class Profile implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        // if (object == null || this.getClass() != object.getClass()) {
+        //     return false;
+        // }
+
+        // Profile profile = (Profile) object;
+
+        if (!(object instanceof Profile profile)) {
+            return false;
+        }
+
+        return this.isVerify() == profile.isVerify()
+            && Objects.equals(this.getId(), profile.getId())
+            && Objects.equals(this.getFirstName(), profile.getFirstName())
+            && Objects.equals(this.getLastName(), profile.getLastName())
+            && Objects.equals(this.getUser(), profile.getUser());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+            getId(),
+            getFirstName(),
+            getLastName(),
+            isVerify(),
+            getUser()
+        );
     }
 }
